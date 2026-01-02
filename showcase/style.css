@@ -1,5 +1,7 @@
 :root {
     --aim-text-color: rgb(255, 193, 209);
+
+    --now-playing-stats-container-left: 16px;
 }
 
 /* Main Page */
@@ -96,4 +98,89 @@
     height: 100%;
     border-radius: inherit;
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Now Playing Container */
+.now-playing-container {
+    position: absolute;
+    /* top: 161px; */
+    top: 130px;
+    right: 0px;
+    width: 303px;
+    height: 1086px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 13px;
+}
+/* Now Playing Stats Massive Container */
+.now-playing-stats {
+    position: relative;
+    border-radius: 50px;
+    width: 205px;
+    height: 608px;
+}
+/* .now-playing-stats-grandma - do not delete this */
+.now-playing-stats-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background-color: rgb(4, 30, 124);
+    opacity: 0.62;
+}
+/* Now Playing Stats Container */
+.now-playing-stats-container {
+    position: absolute;
+    left: var(--now-playing-stats-container-left);
+    width: calc(100% - var(--now-playing-stats-container-left) * 2);
+    color: rgb(131, 201, 255);
+    font-family: "Alan Sans";
+    font-weight: 500;
+    font-size: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+/* Now Playing Stats Container */
+.now-playing-short-stats-container {
+    top: 36px;
+    justify-content: space-between;
+}
+.now-playing-long-stats-container { top: 172px; }
+/* Stats Number + Wrapper */
+.now-playing-stat-wrapper { margin-bottom: 24px; }
+.now-playing-stat-number {
+    font-weight: 600;
+    color: white;
+}
+.now-playing-short-stat-number { margin-left: 10px; }
+.now-playing-long-stat-number { margin-left: 31px; }
+/* Now Playing Divider */
+.now-playing-divider-1 { top: 142px; }
+.now-playing-divider-2 { top: 387px; }
+/* Now Playing Replayer Container */
+.now-playing-replayer-container { top: 410px; }
+.now-playing-replayer-icon { 
+    --dimension: 92px;
+    width: var(--dimension);
+    height: var(--dimension);
+}
+/* Now Playing Replayer String */
+.now-playing-replayer-string {
+    width: 100%;
+    text-align: center;
+    font-family: "Alan Sans";
+    font-size: 20px;
+}
+/* Now Playing Replayer Played By */
+.now-playing-replayer-played-by {
+    color: rgb(131, 201, 255);
+    font-weight: 500;
+    margin-top: 8px;
+}
+/* Now Playing Replayer Name*/
+.now-playing-replayer-name {
+    font-weight: 600;
+    color: white;
 }
