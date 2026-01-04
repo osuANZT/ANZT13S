@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script src="../_shared/core/reconnecting-websocket.min.js"></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,17 +49,17 @@
             <div class="now-playing-stats">
                 <div class="now-playing-stats-background"></div>
                 <div class="now-playing-stats-container now-playing-short-stats-container">
-                    <div class="now-playing-stat-wrapper">cs <span class="now-playing-stat-number now-playing-short-stat-number">4.0</span></div>
-                    <div class="now-playing-stat-wrapper">ar <span class="now-playing-stat-number now-playing-short-stat-number">10.0</span></div>
-                    <div class="now-playing-stat-wrapper">od <span class="now-playing-stat-number now-playing-short-stat-number">10.0</span></div>
-                    <div class="now-playing-stat-wrapper">sr <span class="now-playing-stat-number now-playing-short-stat-number">7.81</span></div>
+                    <div class="now-playing-stat-wrapper">cs <span class="now-playing-stat-number now-playing-short-stat-number" id="now-playing-stat-cs">4.0</span></div>
+                    <div class="now-playing-stat-wrapper">ar <span class="now-playing-stat-number now-playing-short-stat-number" id="now-playing-stat-ar">10.0</span></div>
+                    <div class="now-playing-stat-wrapper">od <span class="now-playing-stat-number now-playing-short-stat-number" id="now-playing-stat-od">10.0</span></div>
+                    <div class="now-playing-stat-wrapper">sr <span class="now-playing-stat-number now-playing-short-stat-number" id="now-playing-stat-sr">7.81</span></div>
                 </div>
                 <img class="now-playing-divider-1 absolute-center-x" src="static/now-playing-divider.png">
                 <div class="now-playing-stats-container now-playing-long-stats-container">
-                    <div class="now-playing-stat-wrapper">length <span class="now-playing-stat-number now-playing-long-stat-number">02:05</span></div>
-                    <div class="now-playing-stat-wrapper">bpm <span class="now-playing-stat-number now-playing-long-stat-number">250</span></div>
-                    <div class="now-playing-stat-wrapper">circles <span class="now-playing-stat-number now-playing-long-stat-number">441</span></div>
-                    <div class="now-playing-stat-wrapper">sliders <span class="now-playing-stat-number now-playing-long-stat-number">267</span></div>
+                    <div class="now-playing-stat-wrapper">length <span class="now-playing-stat-number now-playing-long-stat-number" id="now-playing-stat-len">02:05</span></div>
+                    <div class="now-playing-stat-wrapper">bpm <span class="now-playing-stat-number now-playing-long-stat-number" id="now-playing-stat-bpm">250</span></div>
+                    <div class="now-playing-stat-wrapper">circles <span class="now-playing-stat-number now-playing-long-stat-number" id="now-playing-stat-circles">441</span></div>
+                    <div class="now-playing-stat-wrapper">sliders <span class="now-playing-stat-number now-playing-long-stat-number" id="now-playing-stat-sliders">267</span></div>
                 </div>
                 <img class="now-playing-divider-2 absolute-center-x" src="static/now-playing-divider.png">
                 <div class="now-playing-replayer-container absolute-center-x">
