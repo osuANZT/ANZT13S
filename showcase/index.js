@@ -68,13 +68,18 @@ socket.onmessage = event => {
     nowPlayingStatLenEl.textContent = setLengthDisplay(Math.round((beatmapData.time.lastObject - beatmapData.time.firstObject) / 1000))
     nowPlayingStatBpmEl.textContent = beatmapDataStats.bpm.common
 
-    if (currentReplayerName !== data.resultsScreen.playerName) {
-        // Replayer Details
-        currentReplayerName = data.resultsScreen.playerName
-        nowPlayingReplayerIconEl.setAttribute("src", `https://a.ppy.sh/${2}`)
-        nowPlayingReplayerNameEl.textContent = currentReplayerName
+    // Changing Replayer Names
+    if (currentReplayerName !== data.resultsScreen.playerName && data.state.number === 7 && data.resultsScreen.playerName !== "") {
+        changeReplayerName(data.resultsScreen.playerName)
+    }
+    if (currentReplayerName !== data.play.playerName && data.state.number === 2) {
+        changeReplayerName(data.play.playerName)
+    }
+    if (data.state.number !== 2 && data.state.number !== 7) {
+        changeReplayerName("")
     }
 
+    // Set map details
     if ((currentMapId !== beatmapData.id || currentMapChecksum !== beatmapData.checksum) && allShowcaseBeatmaps) {
         currentMapId = beatmapData.id
         currentMapChecksum = beatmapData.checksum
@@ -148,6 +153,12 @@ socket.onmessage = event => {
 			progressChart.style.webkitMaskPosition = maskPosition
 		}
 	}
+}
+
+function changeReplayerName(name) {
+    currentReplayerName = name
+    nowPlayingReplayerIconEl.setAttribute("src", `https://a.ppy.sh/${2}`)
+    nowPlayingReplayerNameEl.textContent = currentReplayerName
 }
 
 // Configs are for strain graphs
