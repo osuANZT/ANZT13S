@@ -1,9 +1,16 @@
 :root {
     --aim-text-color: rgb(255, 193, 209);
+    --vinyl-aim-color: rgb(255, 86, 158);
+    --vinyl-tap-color: rgb(255, 109, 44);
+    --vinyl-ctl-color: rgb(44, 255, 153);
+    --vinyl-gim-color: rgb(209, 98, 255);
+    --vinyl-tb-color: rgb(103, 167, 255);
 
     --now-playing-stats-container-left: 16px;
     --vinyl-container-dimension: 176px;
     --now-playing-metadata-text-container-width: 1253px;
+
+    --strain-graph-width: calc(var(--now-playing-metadata-text-container-width) - (var(--vinyl-container-dimension) / 4));
 }
 
 /* Whole Page */
@@ -169,6 +176,9 @@
 /* Now Playing Replayer Container */
 .now-playing-replayer-container { top: 410px; }
 .now-playing-replayer-icon { 
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     --dimension: 92px;
     width: var(--dimension);
     height: var(--dimension);
@@ -201,7 +211,7 @@
 }
 /* Vinyl Container */
 .vinyl-container {
-    background-color: #67a7ff;
+    background: transparent;
     border-radius: 50%;
     width: var(--vinyl-container-dimension);
     height: var(--vinyl-container-dimension);
@@ -240,6 +250,7 @@
     width: var(--now-playing-metadata-text-container-width);
     height: 148px;
     border-radius: 0 45px 45px 0;
+    overflow: hidden;
 }
 /* Now Playing Metadata Text Background */
 .now-playing-metadata-text-background {
@@ -276,3 +287,29 @@
 .now-playing-metadata-title { top: 30px; }
 .now-playing-metadata-difficulty { top: 57px; }
 .now-playing-metadata-mapped-by { top: 104px; }
+
+/* --- Strain Graph --- */
+#strain-graph {
+    position: absolute;
+    bottom: 0;
+    left: calc((var(--vinyl-container-dimension) / 4));
+    width: var(--strain-graph-width);
+    height: 120px;
+}
+.strain-graph-detail {
+    position: absolute;
+    top: 20px;
+    border-radius: 17px;
+}
+#progress {
+	position: absolute;
+    bottom: 0;
+    left: 0;
+	width: calc(var(--strain-graph-width) * 2);
+    height: 120px;
+	padding: 0;
+	overflow: hidden;
+	transition: 100ms linear;
+	-webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 49.95%, transparent 50%);
+	mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 49.95%, transparent 50%);
+}

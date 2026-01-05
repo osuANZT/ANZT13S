@@ -10,6 +10,10 @@ Promise.all([loadShowcaseBeatmaps()]).then(([showcaseBeatmaps]) => {
     showcaseRoundTextEl.textContent = `// ${showcaseBeatmaps.roundName} Showcase`
 })
 
+// Vinyl Container
+const vinylContainerEl = document.getElementById("vinyl-container")
+// Now Playing Indeitifer
+const nowPlayingIdentifierEl = document.getElementById("now-playing-identifier")
 // Now Playing Stats Short
 const nowPlayingStatCsEl = document.getElementById("now-playing-stat-cs")
 const nowPlayingStatArEl = document.getElementById("now-playing-stat-ar")
@@ -31,6 +35,21 @@ const nowPlayingMetadataTitleEl = document.getElementById("now-playing-metadata-
 const nowPlayingMetadataDifficultyEl = document.getElementById("now-playing-metadata-difficulty")
 const nowPlayingMetadataMapperEl = document.getElementById("now-playing-metadata-mapper")
 let currentMapId, currentMapChecksum
+
+// Strains
+const progressChart = document.getElementById("progress")
+let tempStrains, seek, fullTime, onepart
+let changeStats = false
+let statsCheck = false
+let last_strain_update = 0
+
+window.onload = function () {
+	let ctx = document.getElementById('strain').getContext('2d')
+	window.strainGraph = new Chart(ctx, config)
+
+	let ctxProgress = document.getElementById('strain-progress').getContext('2d')
+	window.strainGraphProgress = new Chart(ctxProgress, configProgress)
+}
 
 // Socket
 const socket = createTosuWsSocket()
@@ -56,7 +75,21 @@ socket.onmessage = event => {
         nowPlayingReplayerNameEl.textContent = currentReplayerName
     }
 
-    if (currentMapId !== beatmapData.id || currentMapChecksum !== beatmapData.checksum) {
+    if ((currentMapId !== beatmapData.id || currentMapChecksum !== beatmapData.checksum) && allShowcaseBeatmaps) {
+        currentMapId = beatmapData.id
+        currentMapChecksum = beatmapData.checksum
+        
+        const showcaseBeatmap = findShowcaseBeatmap(currentMapId)
+        if (showcaseBeatmap) {
+            // Update right and bottom according to the new map
+            nowPlayingIdentifierEl.style.display = "block"
+            nowPlayingIdentifierEl.setAttribute("src", `static/category-images/${showcaseBeatmap.mod}${showcaseBeatmap.order}.png`)
+            vinylContainerEl.style.backgroundColor = `var(--vinyl-${showcaseBeatmap.mod.toLowerCase()}-color)`
+        } else {
+            nowPlayingIdentifierEl.style.display = "none"
+            vinylContainerEl.style.backgroundColor = "transparent"
+        }
+        
         // Objects
         const beatmapDataStatsObjects = beatmapDataStats.objects
         nowPlayingStatCirclesEl.textContent = beatmapDataStatsObjects.circles
@@ -67,6 +100,111 @@ socket.onmessage = event => {
         nowPlayingMetadataArtistEl.textContent = beatmapData.artist
         nowPlayingMetadataTitleEl.textContent = beatmapData.title
         nowPlayingMetadataDifficultyEl.textContent = beatmapData.version
-        nowPlayingMetadataMapperEl.textContent = beatmapData.mapper   
+        nowPlayingMetadataMapperEl.textContent = beatmapData.mapper
     }
+
+    const fullStrains = data.performance.graph.series[0].data.map((num, index) => num + data.performance.graph.series[1].data[index] + data.performance.graph.series[2].data[index] + data.performance.graph.series[3].data[index]);
+    if (tempStrains != JSON.stringify(fullStrains) && window.strainGraph) {
+        tempStrains = JSON.stringify(fullStrains)
+        if (fullStrains) {
+            let temp_strains = smooth(fullStrains, 2)
+			let new_strains = []
+			for (let i = 0; i < 60; i++) {
+				new_strains.push(temp_strains[Math.floor(i * (temp_strains.length / 60))])
+			}
+			new_strains = [0, ...new_strains, 0]
+
+			config.data.datasets[0].data = new_strains
+			config.data.labels = new_strains
+			config.options.scales.y.max = Math.max(...new_strains)
+			configProgress.data.datasets[0].data = new_strains
+			configProgress.data.labels = new_strains
+			configProgress.options.scales.y.max = Math.max(...new_strains)
+			window.strainGraph.update()
+			window.strainGraphProgress.update()
+        } else {
+			config.data.datasets[0].data = []
+			config.data.labels = []
+			configProgress.data.datasets[0].data = []
+			configProgress.data.labels = []
+			window.strainGraph.update()
+			window.strainGraphProgress.update()
+		}
+    }
+
+    let now = Date.now()
+	if (fullTime !== data.beatmap.time.mp3Length) { fullTime = data.beatmap.time.mp3Length; onepart = 1209 / fullTime }
+	if (seek !== data.beatmap.time.live && fullTime && now - last_strain_update > 300) {
+		last_strain_update = now
+		seek = data.beatmap.time.live
+
+		if (data.state.number !== 2) {
+			progressChart.style.maskPosition = '-1209px 0px'
+			progressChart.style.webkitMaskPosition = '-1209px 0px'
+		}
+		else {
+			let maskPosition = `${-1209 + onepart * seek}px 0px`
+			progressChart.style.maskPosition = maskPosition
+			progressChart.style.webkitMaskPosition = maskPosition
+		}
+	}
+}
+
+// Configs are for strain graphs
+let config = {
+	type: 'line',
+	data: {
+		labels: [],
+		datasets: [{
+			borderColor: 'rgba(245, 245, 245, 0)',
+			backgroundColor: 'rgba(4, 30, 124, 0.25)',
+			data: [],
+			fill: true,
+			stepped: false,
+		}]
+	},
+	options: {
+		tooltips: { enabled: false },
+		legend: { display: false, },
+		elements: { point: { radius: 0 } },
+		responsive: false,
+		scales: {
+			x: { display: false, },
+			y: {
+				display: false,
+				min: 0,
+				max: 100
+			}
+		},
+		animation: { duration: 0 }
+	}
+}
+
+let configProgress = {
+	type: 'line',
+	data: {
+		labels: [],
+		datasets: [{
+			borderColor: 'rgba(245, 245, 245, 0)',
+			backgroundColor: 'rgb(4, 30, 124)',
+			data: [],
+			fill: true,
+			stepped: false,
+		}]
+	},
+	options: {
+		tooltips: { enabled: false },
+		legend: { display: false, },
+		elements: { point: { radius: 0 } },
+		responsive: false,
+		scales: {
+			x: { display: false, },
+			y: {
+				display: false,
+				min: 0,
+				max: 100
+			}
+		},
+		animation: { duration: 0 }
+	}
 }

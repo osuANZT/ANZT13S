@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <script src="../_shared/core/reconnecting-websocket.min.js"></script>
+    <script src="../_shared/core/Chart.min.js"></script>
+    <script src="../_shared/core/smooth.js"></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +47,7 @@
 
         <!-- Now Playing Container -->
         <div class="now-playing-container">
-            <img class="now-playing-identifier" src="static/category-images/AIM2.png">
+            <img class="now-playing-identifier" id="now-playing-identifier" src="static/category-images/AIM2.png">
             <div class="now-playing-stats">
                 <div class="now-playing-stats-background"></div>
                 <div class="now-playing-stats-container now-playing-short-stats-container">
@@ -72,12 +74,19 @@
 
         <!-- Now Playing Metadata -->
         <div class="now-playing-metadata-container">
-            <div class="vinyl-container">
+            <div class="vinyl-container" id="vinyl-container">
                 <img class="vinyl" src="static/VINYL.png">
                 <div class="vinyl-map" id="vinyl-map"></div>
             </div>
             <div class="now-playing-metadata-text-container">
                 <div class="now-playing-metadata-text-background"></div>
+                <!-- Strain Graph -->
+                <div id="strain-graph">
+                    <canvas class="strain-graph-detail" id="strain" width="1209" height="100"></canvas>
+                    <div id="progress">
+                        <canvas class="strain-graph-detail" id="strain-progress" width="1209" height="100"></canvas>
+                    </div>
+                </div>
                 <div class="now-playing-metadata-text now-playing-metadata-text-blue now-playing-metadata-artist" id="now-playing-metadata-artist">S.S.H</div>
                 <div class="now-playing-metadata-text now-playing-metadata-text-white now-playing-metadata-title" id="now-playing-metadata-title">Intersect Thunderbolt -Remix</div>
                 <div class="now-playing-metadata-text now-playing-metadata-text-blue now-playing-metadata-difficulty" id="now-playing-metadata-difficulty">[Jump!!!!]</div>
