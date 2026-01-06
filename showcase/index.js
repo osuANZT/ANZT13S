@@ -4,10 +4,32 @@ import { setLengthDisplay } from "../_shared/core/utils.js"
 
 // Load beatmaps
 const showcaseRoundTextEl = document.getElementById("showcase-round-text")
+const mapIndentifiersContainerEl = document.getElementById("map-identifiers-container")
 let allShowcaseBeatmaps = []
 Promise.all([loadShowcaseBeatmaps()]).then(([showcaseBeatmaps]) => {
+	// Load beatmaps
     allShowcaseBeatmaps = showcaseBeatmaps.beatmaps
+
+	// Load Round Name
     showcaseRoundTextEl.textContent = `// ${showcaseBeatmaps.roundName} Showcase`
+
+	for (let i = 0; i < allShowcaseBeatmaps.length; i++) {
+		const rowId = `${allShowcaseBeatmaps[i].mod}-map-identifier-row`
+
+		// Create map identifer row
+		if (document.getElementById(rowId) === null) {
+			const mapIdentifierRow = document.createElement("div")
+			mapIdentifierRow.classList.add("map-identifier-row")
+			mapIdentifierRow.setAttribute("id", rowId)
+			mapIndentifiersContainerEl.append(mapIdentifierRow)
+		}
+
+		// Make span element
+		const span = document.createElement("span")
+		span.setAttribute("id", allShowcaseBeatmaps[i].beatmap_id)
+		span.textContent = `${allShowcaseBeatmaps[i].mod}${allShowcaseBeatmaps[i].order}`
+		document.getElementById(rowId).append(span)
+	}
 })
 
 // Vinyl Container
@@ -64,8 +86,10 @@ socket.onmessage = event => {
     nowPlayingStatArEl.textContent = beatmapDataStats.ar.converted.toFixed(1)
     nowPlayingStatOdEl.textContent = beatmapDataStats.od.converted.toFixed(1)
     nowPlayingStatSrEl.textContent = beatmapDataStats.stars.total.toFixed(2)
-    // TODO: For Length, get original BPM of the map, then current BPM. then do conversion for length
-    nowPlayingStatLenEl.textContent = setLengthDisplay(Math.round((beatmapData.time.lastObject - beatmapData.time.firstObject) / 1000))
+	let speedRate = 1
+	if (data.resultsScreen.mods.rate !== 1) speedRate = data.play.resultsScreen.mods.rate
+	else if (data.play.mods.rate !== 1) speedRate = data.play.mods.rate
+    nowPlayingStatLenEl.textContent = setLengthDisplay(Math.round((beatmapData.time.lastObject - beatmapData.time.firstObject) / 1000 / speedRate))
     nowPlayingStatBpmEl.textContent = beatmapDataStats.bpm.common
 
     // Changing Replayer Names
