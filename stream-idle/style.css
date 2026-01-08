@@ -1,0 +1,27 @@
+
+/* Main */
+.main { background-image: url("static/background.png");}
+
+/* Stream Type */
+/*
+Stream Starting Soon - Right 937px
+Stream Starting Soon - Right 940px
+Intermission - Right 1075px
+Technical Difficulties - Right 900px;
+*/
+.stream-type {
+    font-size: 40px;
+    font-family: "Alan Sans";
+    color: rgb(18, 45, 100);
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    right: 940px;
+    top: 750px;
+}
+
+/* Now Playing Metadata Container */
+.now-playing-metadata-container {
+    bottom: -1px;
+    left: 2124px;
+}
