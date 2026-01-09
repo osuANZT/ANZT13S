@@ -1,6 +1,6 @@
 import { loadShowcaseBeatmaps, findShowcaseBeatmap } from "../_shared/core/beatmaps.js"
-import { createTosuWsSocket } from "../_shared/core/websocket.js"
 import { setLengthDisplay } from "../_shared/core/utils.js"
+import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 // Load beatmaps
 const showcaseRoundTextEl = document.getElementById("showcase-round-text")

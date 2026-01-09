@@ -12,16 +12,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/obs-websocket-js@5.0.2/dist/obs-ws.min.js"></script>
+    <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
 </head>
 <body>
+    <video class="page-size" autoplay loop muted>
+        <source src="static/badckground.mp4">
+    </video>
     <div class="page-size main">
         <!-- Video of source -->
-        <video class="page-size" autoplay loop muted>
-            <source src="static/videos/technicalDifficulties.webm">
+        <video class="page-size" id="current-status" autoplay loop muted>
+            <source id="current-status-source" src="static/videos/technicalDifficulties.webm">
         </video>
 
         <!-- Text -->
-        <div class="stream-type">// showcase</div>
+        <div class="stream-type" id="stream-type">// showcase</div>
 
         <!-- Now Playing Area -->
         <div class="now-playing-metadata-container">
@@ -32,11 +38,11 @@
         </div>
         <div class="now-playing-metadata-text-container">
             <div class="now-playing-metadata-text-background"></div>
-            <div class="now-playing-metadata-info now-playing-metadata-side now-playing-metadata-artist">An Artist Name</div>
-            <div class="now-playing-metadata-info now-playing-metadata-title">It is a Very long title</div>
-            <div class="now-playing-metadata-info now-playing-metadata-side now-playing-metadata-time">01:45 / 03:06</div>
+            <div class="now-playing-metadata-info now-playing-metadata-side now-playing-metadata-artist" id="now-playing-metadata-artist">An Artist Name</div>
+            <div class="now-playing-metadata-info now-playing-metadata-title" id="now-playing-metadata-title">It is a Very long title</div>
+            <div class="now-playing-metadata-info now-playing-metadata-side now-playing-metadata-time"><span id="now-playing-metadata-time-current">01:45</span> / <span id="now-playing-metadata-time-mp3">03:06</span></div>
         </div>
     </div>
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>
