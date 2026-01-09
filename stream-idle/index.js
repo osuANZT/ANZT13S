@@ -1,4 +1,4 @@
-import { setLengthDisplay } from "../_shared/core/utils.js"
+import { getCookie, setLengthDisplay } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 // Now Playing Information
@@ -67,4 +67,24 @@ function updateStatusVideo(sceneName) {
 
     currentStatusEl.load()
     currentStatusEl.play()
+}
+
+// Set round
+const roundNameEl = document.getElementById("round-name")
+const matchTypeEl = document.getElementById("match-type")
+matchTypeEl.value = getCookie("matchType")
+roundNameEl.value = getCookie("roundName")
+const setIdleTitle = () => {
+    streamTypeEl.textContent = `// ${roundNameEl.value.toUpperCase()} ${matchTypeEl.value}`
+    document.cookie = `matchType=${matchTypeEl.value}; path=/`
+    document.cookie = `roundName=${roundNameEl.value}; path=/`
+}
+
+// Set title
+if (matchTypeEl.value && roundNameEl.value) setIdleTitle()
+
+// Bind Button to function
+const applySettingsEl = document.getElementById("apply-settings")
+window.onload = () => {
+    applySettingsEl.addEventListener("click", setIdleTitle)
 }

@@ -18,9 +18,9 @@
 </head>
 <body>
     <video class="page-size" autoplay loop muted>
-        <source src="static/badckground.webm">
+        <source src="static/background.webm">
     </video>
-    
+
     <div class="page-size main">
         <!-- Video of source -->
         <video class="page-size" id="current-status" autoplay loop muted>
@@ -42,6 +42,29 @@
             <div class="now-playing-metadata-info now-playing-metadata-side now-playing-metadata-artist" id="now-playing-metadata-artist">An Artist Name</div>
             <div class="now-playing-metadata-info now-playing-metadata-title" id="now-playing-metadata-title">It is a Very long title</div>
             <div class="now-playing-metadata-info now-playing-metadata-side now-playing-metadata-time"><span id="now-playing-metadata-time-current">01:45</span> / <span id="now-playing-metadata-time-mp3">03:06</span></div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h1>Select Round</h1>
+            <!-- Select Round -->
+            <select size="7" id="round-name">
+                <option value="qualifier">Qualifiers</option>
+                <option value="ro32">Round of 32</option>
+                <option value="ro16">Round of 16</option>
+                <option value="qf">Quarterfinals</option>
+                <option value="sf">Semifinals</option>
+                <option value="f">Finals</option>
+                <option value="gf">Grand Finals</option>
+            </select>
+            <!-- Select Stream Type -->
+            <h1>Select Stream<br>Type</h1>
+            <select size="2" id="match-type">
+                <option id="Showcase">Showcase</option>
+                <option id="Match">Match</option>
+            </select>
+
+            <button id="apply-settings">Apply Settings</button>
         </div>
     </div>
     <script type="module" src="index.js"></script>
