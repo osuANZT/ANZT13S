@@ -127,7 +127,6 @@ video {
 /* Now Playing Container */
 .now-playing-container {
     position: absolute;
-    /* top: 161px; */
     top: 130px;
     right: 0px;
     width: 303px;
@@ -174,6 +173,11 @@ video {
 .now-playing-long-stats-container { top: 172px; }
 /* Stats Number + Wrapper */
 .now-playing-stat-wrapper { margin-bottom: 24px; }
+.now-playing-stat-long-wrapper {
+    width: 200px;
+    display: flex;
+}
+.now-playing-stat-text { width: 65px; }
 .now-playing-stat-number {
     font-weight: 600;
     color: white;
@@ -184,31 +188,33 @@ video {
 .now-playing-divider-1 { top: 142px; }
 .now-playing-divider-2 { top: 387px; }
 /* Now Playing Replayer Container */
-.now-playing-replayer-container { top: 410px; }
-.now-playing-replayer-icon { 
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    --dimension: 92px;
-    width: var(--dimension);
-    height: var(--dimension);
-}
-/* Now Playing Replayer String */
-.now-playing-replayer-string {
-    width: 100%;
+.now-playing-mods-container { 
+    top: 400px;
     text-align: center;
     font-family: "Alan Sans";
-    font-size: 20px;
+    width: 170px;
+    height: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-/* Now Playing Replayer Played By */
-.now-playing-replayer-played-by {
-    color: rgb(131, 201, 255);
+.now-playing-mods-main {
+    font-weight: 800;
+    color: rgb(251, 255, 131);
+}
+.now-playing-mod-container {
+    display: flex;
+    column-gap: 5px;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+}
+.now-playing-mod-text {
     font-weight: 500;
-    margin-top: 8px;
+    color: rgb(131, 201, 255)
 }
-/* Now Playing Replayer Name*/
-.now-playing-replayer-name {
-    font-weight: 600;
+.now-playing-mod-customs {
+    font-weight: 700;
     color: white;
 }
 

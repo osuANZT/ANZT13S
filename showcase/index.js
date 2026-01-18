@@ -51,10 +51,8 @@ const nowPlayingStatLenEl = document.getElementById("now-playing-stat-len")
 const nowPlayingStatBpmEl = document.getElementById("now-playing-stat-bpm")
 const nowPlayingStatCirclesEl = document.getElementById("now-playing-stat-circles")
 const nowPlayingStatSlidersEl = document.getElementById("now-playing-stat-sliders")
-// Now Playing Replayer Details
-const nowPlayingReplayerIconEl = document.getElementById("now-playing-replayer-icon")
-const nowPlayingReplayerNameEl = document.getElementById("now-playing-replayer-name")
-let currentReplayerName
+// Now Playing Mods
+const nowPlayingModsContainerEl = document.getElementById("now-playing-mods-container")
 // Now Playing Metadata
 const vinylMapEl = document.getElementById("vinyl-map")
 const nowPlayingMetadataArtistEl = document.getElementById("now-playing-metadata-artist")
@@ -90,21 +88,10 @@ socket.onmessage = event => {
     nowPlayingStatOdEl.textContent = beatmapDataStats.od.converted.toFixed(1)
     nowPlayingStatSrEl.textContent = beatmapDataStats.stars.total.toFixed(2)
 	let speedRate = 1
-	if (data.resultsScreen.mods.rate !== 1) speedRate = data.play.resultsScreen.mods.rate
+	if (data.resultsScreen.mods.rate !== 1) speedRate = data.resultsScreen.mods.rate
 	else if (data.play.mods.rate !== 1) speedRate = data.play.mods.rate
     nowPlayingStatLenEl.textContent = setLengthDisplay(Math.round((beatmapData.time.lastObject - beatmapData.time.firstObject) / 1000 / speedRate))
     nowPlayingStatBpmEl.textContent = beatmapDataStats.bpm.common
-
-    // Changing Replayer Names
-    if (currentReplayerName !== data.resultsScreen.playerName && data.state.number === 7 && data.resultsScreen.playerName !== "") {
-        changeReplayerName(data.resultsScreen.playerName)
-    }
-    if (currentReplayerName !== data.play.playerName && data.state.number === 2) {
-        changeReplayerName(data.play.playerName)
-    }
-    if (data.state.number !== 2 && data.state.number !== 7) {
-        changeReplayerName("")
-    }
 
     // Set map details
     if ((currentMapId !== beatmapData.id || currentMapChecksum !== beatmapData.checksum) && allShowcaseBeatmaps) {
@@ -115,6 +102,9 @@ socket.onmessage = event => {
 		for (let i = 0; i < allShowcaseBeatmaps.length; i++) {
 			document.getElementById(allShowcaseBeatmaps[i].beatmap_id).style.color = "unset"
 		}
+
+		// Reset Now Playing Mods
+		nowPlayingModsContainerEl.innerHTML = ""
         
         const showcaseBeatmap = findShowcaseBeatmap(currentMapId)
         if (showcaseBeatmap) {
@@ -170,6 +160,35 @@ socket.onmessage = event => {
             nowPlayingIdentifierEl.setAttribute("src", `static/category-images/${showcaseBeatmap.mod}${showcaseBeatmap.order}.png`)
             vinylContainerEl.style.backgroundColor = `var(--vinyl-${showcaseBeatmap.mod.toLowerCase()}-color)`
 			document.getElementById(showcaseBeatmap.beatmap_id).style.color = "white"
+
+			// Setting Now Playing Mods
+			if (showcaseBeatmap.mods) {
+				// Make main mods
+				if (showcaseBeatmap.main_mods) {
+					const mainMod = document.createElement("div")
+					mainMod.classList.add("now-playing-mods-main")
+					mainMod.textContent = showcaseBeatmap.main_mods
+					nowPlayingModsContainerEl.append(mainMod)
+				}
+				
+				// Sub mods
+				const mods = showcaseBeatmap.mods.split("|")
+				const modCustoms = showcaseBeatmap.mod_customs.split("|")
+
+				for (let i = 0; i < mods.length; i++) {
+					const modContainer = document.createElement("div")
+					modContainer.classList.add("now-playing-mod-container")
+					const modText = document.createElement("div")
+					modText.textContent = mods[i]
+					modText.classList.add("now-playing-mod-text")
+					const modCustom = document.createElement("div")
+					modCustom.classList.add("now-playing-mod-customs")
+					modCustom.textContent = modCustoms[i]
+					modContainer.append(modText, modCustom)
+					nowPlayingModsContainerEl.append(modContainer)
+				}
+			}
+			
         } else {
             nowPlayingIdentifierEl.style.display = "none"
             vinylContainerEl.style.backgroundColor = "transparent"
@@ -240,12 +259,6 @@ socket.onmessage = event => {
 			progressChart.style.webkitMaskPosition = maskPosition
 		}
 	}
-}
-
-function changeReplayerName(name) {
-    currentReplayerName = name
-    nowPlayingReplayerIconEl.setAttribute("src", `https://a.ppy.sh/${2}`)
-    nowPlayingReplayerNameEl.textContent = currentReplayerName
 }
 
 // Configs are for strain graphs
