@@ -44,3 +44,10 @@
     background-image: url("https://assets.ppy.sh/beatmaps/292301/covers/cover.jpg");
     border-radius: 50%;
 }
+
+/* Absolute Center */
+.absolute-center-x {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

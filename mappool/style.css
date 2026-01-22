@@ -93,3 +93,56 @@
     line-height: 30px;
 }
 .team-ban-container img { height: 35px; }
+
+/* Current Map Background Image */
+.current-map-background-image {
+    position: absolute;
+    width: 1142px;
+    height: 777px;
+    mask-image: url("static/layer-mask.png");
+    mask-mode: alpha;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+.current-map-background-image img { height: 777px; }
+
+/* Current Map Category Image*/
+.current-map-category-image {
+    top: 85px;
+    height: 60px;
+}
+
+/* Current Map Artist + Title */
+.current-map-metadata-wrapper {
+    text-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+    color: rgb(229, 229, 229);
+    font-size: 27px;
+}
+.current-map-artist-title { top: 173px; }
+.current-map-mapper { top: 200px;}
+.current-map-metadata-bold { font-weight: 700; }
+
+/* Current Map Picker */
+.current-map-picker {
+    top: 525px;
+    height: 43px;
+}
+/* .current-map-picker {
+    top: 565px;
+    height: 65px;
+} */
+
+/* Current Map Win Result */
+.current-map-win-result { top: 571px; }
+.current-mpa-win-scores {
+    top: 577px;
+    font-family: "SUSE";
+    color: white;
+    font-weight: 700;
+    font-size: 28px;
+}
+.current-map-win-scores-medium { font-weight: 500; }
