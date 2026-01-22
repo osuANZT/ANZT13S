@@ -1,5 +1,19 @@
-.main {
+:root {
+    --team-background-x: 459px;
+    --team-name-x: 1731px;
+    --team-point-container-x: 1725px;
+    --team-ban-container-x: 1721px;
+}
+
+/* Ageta Chubby */
+@font-face {
+    font-family: "Ageta Chubby";
+    src: url("../fonts/Ageta\ Chubby\ Demo.otf")
+}
+
+.main { 
     background-image: url("static/background.png");
+    font-family: "Alan Sans";
 }
 
 /* Logo */
@@ -19,3 +33,63 @@
     left: 18px;
     top: 107px;
 }
+
+/* Team Background */
+.team-background {
+    position: absolute;
+    top: 162px;
+    width: 388px;
+    height: 49px;
+}
+.team-red-background {
+    background-image: linear-gradient( 90deg, rgb(208,146,146) 0%, rgb(200,34,112) 100%);
+    left: var(--team-background-x);
+    box-shadow: 0 0 10px 4px rgba(200, 34, 112, 0.5);
+}
+.team-blue-background {
+    background-image: linear-gradient( 90deg, rgb(1,50,233) 0%, rgb(0,219,222) 100%);
+    right: var(--team-background-x);
+    box-shadow: 0 0 10px 4px rgba(1, 50, 233, 0.5);
+}
+
+/* Team Name */
+.team-name {
+    position: absolute;
+    top: 158px;
+    color: white;
+    font-weight: 700;
+    font-size: 42px;
+    letter-spacing: -1px;
+    text-indent: 0.5px;
+}
+.team-red-name { right: var(--team-name-x); }
+.team-blue-name { left: var(--team-name-x); }
+/* Team Point Container */
+.team-point-container {
+    position: absolute;
+    top: 220px;;
+    display: flex;
+    gap: 11px;
+}
+.team-red-point-container {
+    right: var(--team-point-container-x);
+    flex-direction: row-reverse;
+}
+.team-blue-point-container { left: var(--team-point-container-x); }
+
+/* Team Ban Container */
+.team-ban-container {
+    position: absolute;
+    top: 277px;
+    display: flex;
+    color: white;
+    gap: 10px;
+}
+.team-red-ban-container { right: var(--team-ban-container-x); }
+.team-blue-ban-container { left: var(--team-ban-container-x); }
+.bans-text {
+    font-family: "Ageta Chubby";
+    font-size: 29px;
+    line-height: 30px;
+}
+.team-ban-container img { height: 35px; }
