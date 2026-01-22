@@ -8,3 +8,14 @@
     top: 19px;
     left: 17px;
 }
+
+/* Round Name */
+.round-name {
+    font-size: 27px;
+    font-family: "Alan Sans";
+    color: rgb(143, 177, 246);
+    font-weight: 700;
+    position: absolute;
+    left: 18px;
+    top: 107px;
+}
