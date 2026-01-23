@@ -51,3 +51,12 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
+/* Stream Title Top Left */
+.stream-title {
+    font-size: 27px;
+    font-family: "Alan Sans";
+    color: rgb(143, 177, 246);
+    font-weight: 700;
+    position: absolute;
+}

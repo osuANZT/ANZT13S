@@ -1,0 +1,31 @@
+/* Whole Page */
+.main {
+    width: 1920px;
+    height: 1080px;
+    background-image: url("static/background.png")
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    height: 70px;
+}
+
+/* Stream Title */
+.stream-title {
+    top: 110px;
+    lefT: 40px;
+}
+
+.team-seed {
+    font-size: 35px;
+    font-family: "Alan Sans";
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    text-shadow: 0px 3px 7px rgba(0, 0, 0, 1);
+    position: absolute;
+    left: 271px;
+    top: 160px;
+}
