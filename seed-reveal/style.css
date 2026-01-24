@@ -61,6 +61,7 @@
     top: 324px;
     width: 554px;
     height: 105px;
+    white-space: nowrap;
 }
 .player-rank { color: white; }
 
