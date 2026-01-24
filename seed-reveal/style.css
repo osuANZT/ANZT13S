@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "retropix";
+    src: url("../fonts/retropix.otf")
+}
+
 /* Whole Page */
 .main {
     width: 1920px;
@@ -58,3 +63,81 @@
     height: 105px;
 }
 .player-rank { color: white; }
+
+/* Mod Container */
+.mod-container-wrapper {
+    top: 395px;
+    display: flex;
+    gap: 72px;
+}
+.mod-container {
+    position: relative;
+    width: 290px;
+    height: 493px;
+}
+
+/* Mod Container Background */
+.mod-container-background { position: absolute; }
+.mod-image {
+    position: absolute;
+    top: 54px;
+    height: 60px;
+}
+
+/* Container Variables */
+.aim-mod-container {
+    --score-gradient: linear-gradient(135deg, rgb(250, 217, 202), rgb(245, 184, 240));
+    --text-colour: rgb(246, 207, 224);
+    --text-shadow: rgba(95, 20, 53, 0.4);
+}
+.tap-mod-container {
+    --score-gradient: linear-gradient(135deg, rgb(255, 243, 246), rgb(255, 248, 139));
+    --text-colour: rgb(255, 247, 164);
+    --text-shadow: rgba(74, 70, 21, 0.4);
+}
+.ctl-mod-container {
+    --score-gradient: linear-gradient(135deg, rgb(200, 230, 172), rgb(141, 168, 152));
+    --text-colour: rgb(123, 217, 161);
+    --text-shadow: rgba(74, 70, 21, 0.4);
+}
+.gim-mod-container {
+    --score-gradient: linear-gradient(135deg, rgb(252, 233, 219), rgb(253, 217, 251));
+    --text-colour: rgb(207, 160, 255);
+    --text-shadow: rgba(43, 10, 77, 0.4);
+}
+
+/* Map Score */
+.map-score {
+    position: absolute;
+    left: 21px;
+    font-family: "retropix";
+    font-size: 40px;
+    background: var(--score-gradient, linear-gradient(135deg, #fff, #000));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+.map-score-1 { top: 183px; }
+.map-score-2 { top: 267px; }
+.map-score-3 { top: 352px; }
+.aim-mod-container .map-score { text-shadow: 0 3px 2px rgb(245, 184, 240); }
+.tap-mod-container .map-score { text-shadow: 0 3px 2px rgb(255, 248, 139); }
+.ctl-mod-container .map-score { text-shadow: 0 3px 2px rgb(253, 245, 145); }
+.gim-mod-container .map-score { text-shadow: 0 3px 2px rgb(253, 217, 251); }
+
+/* Map Rank */
+.map-rank {
+    font-size: 35px;
+    font-family: "Alan Sans";
+    position: absolute;
+    left: 231px;
+    top: 177px;
+    font-weight: 700;
+
+    color: var(--text-colour);
+    text-shadow: 0px 3px 7px var(--text-shadow)
+}
+.map-rank-1 { top: 177px; }
+.map-rank-2 { top: 262px; }
+.map-rank-3 { top: 347px; }
