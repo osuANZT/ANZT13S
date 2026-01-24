@@ -72,12 +72,16 @@
 }
 .mod-container {
     position: relative;
-    width: 290px;
+    width: 306px;
     height: 493px;
 }
 
 /* Mod Container Background */
-.mod-container-background { position: absolute; }
+.mod-container-background {
+    width: 306px;
+    height: 493px;
+    position: absolute;
+}
 .mod-image {
     position: absolute;
     top: 54px;
@@ -131,7 +135,7 @@
     font-size: 35px;
     font-family: "Alan Sans";
     position: absolute;
-    left: 231px;
+    right: 25px;
     top: 177px;
     font-weight: 700;
 
@@ -141,3 +145,31 @@
 .map-rank-1 { top: 177px; }
 .map-rank-2 { top: 262px; }
 .map-rank-3 { top: 347px; }
+
+/* Sidebar */
+.sidebar {
+    position: absolute;
+    left: 1920px;
+    top: 0;
+    width: 250px;
+    height: 1080px;
+    background-color: #7D5DCE;
+    font-family: "Alan Sans";
+    color: white;
+}
+button {
+    width: 150px;
+    height: 40px;
+    border-radius: 20px;
+    margin-left: 50px;
+    margin-top: 20px;
+    font-family: inherit;
+    font-size: 1em;
+    border: 3px solid white;
+    color: white;
+    background: transparent;
+}
+button:active {
+    background: white;
+    color: #7D5DCE;
+}

@@ -39,3 +39,21 @@ function renderTeam() {
         document.getElementById(mapScoreElementIds[i]).textContent = text
     }
 }
+
+// Buttons
+const nextButtonEl = document.getElementById("next-button")
+const previousButtonEl = document.getElementById("previous-button")
+window.onload = () => {
+    nextButtonEl.addEventListener("click", () => setCurrentTeamNumber("plus"))
+    previousButtonEl.addEventListener("click", () => setCurrentTeamNumber("minus"))
+}
+
+function setCurrentTeamNumber(action) {
+    if (action === "plus") currentTeamNumber++
+    else if (action === "minus") currentTeamNumber--
+
+    if (currentTeamNumber < 0) currentTeamNumber = allTeamsSeedReveal.length - 1
+    if (currentTeamNumber > allTeamsSeedReveal.length - 1) currentTeamNumber = 0
+
+    renderTeam()
+}
