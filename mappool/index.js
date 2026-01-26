@@ -6,6 +6,9 @@ import { createTosuWsSocket } from "../_shared/core/websocket.js"
 const redTeamStarContainerEl = document.getElementById("red-team-star-container")
 const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
 
+// Pick Container
+const pickContainerEl = document.getElementById("pick-container")
+
 // Mappool Management Maps
 const mappoolManagementMapsEl = document.getElementById("mappool-management-maps")
 
@@ -37,7 +40,37 @@ Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
     // Set default star count
     setDefaultStarCount(bestOf, redTeamStarContainerEl, blueTeamStarContainerEl)
 
-        // Create map pick buttons
+    // Create pick tiles
+    for (let i = 0; i < bestOf; i++) {
+        const pickTile = document.createElement("div")
+        pickTile.classList.add("pick-tile")
+
+        // Pick tile category
+        const pickTileCategory = document.createElement("img")
+        pickTileCategory.classList.add("pick-tile-category", "absolute-center-x")
+
+        // Pick Tile Border
+        const pickTileBorder = document.createElement("img")
+        pickTileBorder.classList.add("pick-tile-border")
+        pickTileBorder.setAttribute("src", "static/panel-border.png")
+
+        // Pick Tile Winner Crown
+        const pickTileWinnerCrown = document.createElement("img")
+        pickTileWinnerCrown.classList.add("pick-tile-winner-crown", "absolute-center-x")
+
+        // Pick Tile Bottom BG
+        const pickTileBottomBg = document.createElement("img")
+        pickTileBottomBg.classList.add("pick-tile-bottom-bg")
+
+        // Pick Tile Bottom Text
+        const pickTileBottomText = document.createElement("div")
+        pickTileBottomText.classList.add("pick-tile-bottom-text")
+
+        pickTile.append(pickTileCategory, pickTileBorder, pickTileWinnerCrown, pickTileBottomBg, pickTileBottomText)
+        pickContainerEl.append(pickTile)
+    }
+
+    // Create map pick buttons
     for (let i = 0; i < allBeatmaps.length; i++) {
         const button = document.createElement("button")
         button.addEventListener("mousedown", mapClickEvent)

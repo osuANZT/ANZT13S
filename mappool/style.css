@@ -223,6 +223,7 @@
     height: 434px;
     background: center / cover;
     background-image: url("https://assets.ppy.sh/beatmaps/1752094/covers/cover.jpg");
+    display: none;
 }
 
 /* Pick Tile Border */
@@ -238,7 +239,10 @@
 }
 
 /* Winner Crowns */
-.pick-tile-winner-crown { bottom: 24px; }
+.pick-tile-winner-crown {
+    bottom: 24px; 
+    display: none;
+}
 
 /* Pick Tile Bottom */
 .pick-tile-bottom-bg {
