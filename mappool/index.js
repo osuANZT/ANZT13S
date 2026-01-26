@@ -92,8 +92,10 @@ let currentPickTile
 // Current map
 const currentMapBackgroundImageEl = document.getElementById("current-map-background-image")
 const currentMapCategoryImageEl = document.getElementById("current-map-category-image")
+const currentMapArtistTitleEl= document.getElementById("current-map-artist-title")
 const currentMapArtistEl = document.getElementById("current-map-artist")
 const currentMapTitleEl = document.getElementById("current-map-title")
+const currentMapMappedByEl= document.getElementById("current-map-mapped-by")
 const currentMapMapperNameEl = document.getElementById("current-map-mapper-name")
 const currentMapPickerEl = document.getElementById("current-map-picker")
 const currentMapWinResultEl = document.getElementById("current-map-win-result")
@@ -157,6 +159,7 @@ function mapClickEvent(event) {
 
         // Set top information
         if (mapsFound !== 0) {
+            // Set content
             currentMapBackgroundImageEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg`)
             currentMapCategoryImageEl.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
             currentMapArtistEl.textContent = currentMap.artist
@@ -165,6 +168,10 @@ function mapClickEvent(event) {
             currentMapPickerEl.setAttribute("src", `static/picks/${team}-pick.png`)
             currentMapPickerEl.style.top = "535px"
             currentMapPickerEl.style.height = "65px"
+
+            // Set display
+            currentMapArtistTitleEl.style.display = "block"
+            currentMapMappedByEl.style.display = "block"
             currentMapWinResultEl.style.display = "none"
             currentMapWinScoresEl.style.display = "none"
         }

@@ -125,8 +125,14 @@
     color: rgb(229, 229, 229);
     font-size: 27px;
 }
-.current-map-artist-title { top: 143px; }
-.current-map-mapper { top: 170px;}
+.current-map-artist-title { 
+    top: 143px;
+    display: none
+}
+.current-map-mapper { 
+    top: 170px;
+    display: none
+}
 .current-map-metadata-bold { font-weight: 700; }
 
 /* Current Map Picker */
@@ -140,13 +146,17 @@
 } */
 
 /* Current Map Win Result */
-.current-map-win-result { top: 541px; }
+.current-map-win-result {
+    top: 541px;
+    display: none;
+}
 .current-mpa-win-scores {
     top: 547px;
     font-family: "SUSE";
     color: white;
     font-weight: 700;
     font-size: 28px;
+    display: none;
 }
 .current-map-win-scores-medium { font-weight: 500; }
 
