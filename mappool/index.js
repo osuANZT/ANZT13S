@@ -86,6 +86,19 @@ Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
 const teamRedBanContainerEl = document.getElementById("team-red-ban-container")
 const teamBlueBanContainerEl = document.getElementById("team-blue-ban-container")
 
+// Current pick tile
+let currentPickTile
+
+// Current map
+const currentMapBackgroundImageEl = document.getElementById("current-map-background-image")
+const currentMapCategoryImageEl = document.getElementById("current-map-category-image")
+const currentMapArtistEl = document.getElementById("current-map-artist")
+const currentMapTitleEl = document.getElementById("current-map-title")
+const currentMapMapperNameEl = document.getElementById("current-map-mapper-name")
+const currentMapPickerEl = document.getElementById("current-map-picker")
+const currentMapWinResultEl = document.getElementById("current-map-win-result")
+const currentMapWinScoresEl = document.getElementById("current-map-win-scores")
+
 // Map Click Event
 function mapClickEvent(event) {
     // Find map
@@ -106,7 +119,8 @@ function mapClickEvent(event) {
     // Check if map exists in bans
     const mapCheck = !!(
         teamRedBanContainerEl.querySelector(`[data-id="${currentMapId}"]`) ||
-        teamBlueBanContainerEl.querySelector(`[data-id="${currentMapId}"]`)
+        teamBlueBanContainerEl.querySelector(`[data-id="${currentMapId}"]`) ||
+        pickContainerEl.querySelector(`[data-id="${currentMapId}"]`)
     )
     if (mapCheck) return
 
@@ -118,7 +132,41 @@ function mapClickEvent(event) {
         if (currentElement.childElementCount < 1 + banCount) {
             const categoryImage = document.createElement("img")
             categoryImage.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
+            categoryImage.dataset.id = currentMap.beatmap_id
             currentElement.append(categoryImage)
+        }
+    }
+
+    // If pick
+    if (action === "pick") {
+        let mapsFound = 0
+        // Set Tile
+        for (let i = 0; i < bestOf; i++) {
+            let currentTile = pickContainerEl.children[i]
+            if (pickContainerEl.children[i].hasAttribute("data-id")) continue
+            currentTile.style.display = "block"
+            currentTile.dataset.id = currentMap.beatmap_id
+            currentTile.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
+            currentTile.children[0].setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
+            currentTile.children[3].setAttribute("src", `static/pick-bgs/${team}-pick-bg.png`)
+            currentTile.children[4].textContent = `${team.toUpperCase()} PICK`
+            currentPickTile = currentTile
+            mapsFound = 1
+            break
+        }
+
+        // Set top information
+        if (mapsFound !== 0) {
+            currentMapBackgroundImageEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg`)
+            currentMapCategoryImageEl.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
+            currentMapArtistEl.textContent = currentMap.artist
+            currentMapTitleEl.textContent = currentMap.title
+            currentMapMapperNameEl.textContent = currentMap.creator
+            currentMapPickerEl.setAttribute("src", `static/picks/${team}-pick.png`)
+            currentMapPickerEl.style.top = "535px"
+            currentMapPickerEl.style.height = "65px"
+            currentMapWinResultEl.style.display = "none"
+            currentMapWinScoresEl.style.display = "none"
         }
     }
 }
