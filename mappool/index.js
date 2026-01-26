@@ -108,3 +108,9 @@ function updateCurrentPicker(side) {
     currentPickerTextEl.textContent = side
     document.cookie = `currentPicker=${side}; path=/`
 }
+
+// Set Autopicker
+function setAutopicker(picker) {
+    currentPicker = picker
+    nextAutopickNextEl.textContent = `${currentPicker.substring(0, 1).toUpperCase()}${currentPicker.substring(1)}`
+}
