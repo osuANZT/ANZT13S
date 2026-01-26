@@ -57,9 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     nextAutopickRedEl.addEventListener("click", () => setAutopicker("red"))
     nextAutopickBlueEl.addEventListener("click",() => setAutopicker("blue"))
 
-    // Ban Pick Management
-    banPickManagementSelectActionEl.addEventListener("click", setBanPickAction)
-
     // Current Picker
     currentPickerRedEl.addEventListener("click", () => updateCurrentPicker("red"))
     currentPickerBlueEl.addEventListener("click", () => updateCurrentPicker("blue"))
