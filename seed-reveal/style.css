@@ -154,7 +154,7 @@
     top: 0;
     width: 250px;
     height: 1080px;
-    background-color: #7D5DCE;
+    background-color: var(--sidebar-background-colour);
     font-family: "Alan Sans";
     color: white;
 }
@@ -172,5 +172,5 @@ button {
 }
 button:active {
     background: white;
-    color: #7D5DCE;
+    color: var(--sidebar-background-colour);
 }

@@ -1,3 +1,7 @@
+:root {
+    --sidebar-background-colour: rgb(125, 93, 206);
+}
+
 /* Whole Page */
 .page-size {
     position: absolute;

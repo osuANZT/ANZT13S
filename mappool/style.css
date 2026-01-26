@@ -3,6 +3,9 @@
     --team-name-x: 1731px;
     --team-point-container-x: 1725px;
     --team-ban-container-x: 1721px;
+
+    --sidebar-column-width: 300px;
+    --screen-height: 1440px;
 }
 
 /* Ageta Chubby */
@@ -254,32 +257,34 @@
 .sidebar {
     position: absolute;
     top: 0;
-    left: 1920px;
-    width: 500px;
-    height: 1080px;
-    background-color: var(--light-gray);
+    left: 2560px;
+    width: 600px;
+    height: var(--screen-height);
+    background-color: var(--sidebar-background-colour);
     overfloW: hidden;
+    color: white;
+    font-family: "Alan Sans";
 }
 /* Sidebar Column */
 .column {
     position: absolute;
     top: 0;
-    width: 250px;
+    width: var(--sidebar-column-width);
 }
 .column-1 { left: 0; }
-.column-2 { left: 250px; }
+.column-2 { left: var(--sidebar-column-width); }
 /* Sidebar Divider */
 .divider {
     position: absolute;
-    width: 2px;
-    height: 1080px;
-    background-color: var(--dark-gray);
+    width: 3px;
+    height: var(--screen-height);
+    background-color: white;
 }
-.divider-1 { left: 249px; }
+.divider-1 { left: 298.5px; }
 /* Sidebar Section */
 .sidebar-section {
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--dark-gray);
+    padding-bottom: 13px;
+    border-bottom: 3px solid white;
 }
 /* Sidebar H1s */
 .sidebar-section h1 {
@@ -295,10 +300,9 @@
 /* Sidebar Text */
 .sidebar-text {
     text-align: center;
-    font-family: "Torus";
+    font-family: "Alan Sans";
     font-size: 1.2em;
 }
-.font-family-orlando-caps-cg { font-family: unset; }
 /* Sidebar Button Container */
 .sidebar-button-container {
     display: flex;
@@ -312,20 +316,19 @@
     height: var(--height);
     margin: 5px;
     border-radius: calc(var(--height) / 2);
-    border: 2px solid var(--dark-gray);
+    border: 2px solid white;
     background-color: transparent;
     font-size: 1em;
     font-family: inherit;
+    color: inherit;
 }
 .sidebar-button:active {
-    background-color: var(--dark-gray);
-    color: var(--light-gray);
+    background-color: white;
+    color: var(--sidebar-background-colour);
 }
 /* Full Size Button */
-.full-size-button {
-    width: 230px;
-    color: var(--light-gray);
-}
+.full-size-button { width: 230px; }
+.full-size-button:active { color: var(--sidebar-background-colour); }
 /* Apply Changes Button */
 .apply-changes-button {
     margin-top: 15px;
@@ -342,19 +345,19 @@
 
 /* Ban Pick Management Select*/
 .ban-pick-management-select {
-    width: 250px;
+    width: var(--sidebar-column-width);
     text-align: center;
     color: var(--dark-gray);
     background-color: transparent;
     border: none;
-    font-family: "Torus";
+    font-family: "Alan Sans";
     font-weight: 700;
     font-size: 1.25em;
 }
 .ban-pick-management-select::-webkit-scrollbar { display: none; }
 /* Which Map */
 .which-map-select {
-    width: 250px;
+    width: var(--sidebar-column-width);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -365,7 +368,7 @@
     height: var(--height);
     line-height: var(--height);
     font-size: 1.25em;
-    font-family: "Torus";
+    font-family: "Alan Sans";
     color: var(--secondary-colour);
     background-color: transparent;
     border: none;
