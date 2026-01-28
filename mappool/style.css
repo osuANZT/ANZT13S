@@ -64,7 +64,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.team-red-name { right: var(--team-name-x); }
+.team-red-name { 
+    right: var(--team-name-x);
+    text-align: right;
+}
 .team-blue-name { left: var(--team-name-x); }
 /* Team Point Container */
 .team-point-container {
@@ -276,7 +279,7 @@
     position: absolute;
     top: 0;
     left: 2560px;
-    width: 600px;
+    width: calc(var(--sidebar-column-width) * 3);
     height: var(--screen-height);
     background-color: var(--sidebar-background-colour);
     overfloW: hidden;
@@ -291,6 +294,7 @@
 }
 .column-1 { left: 0; }
 .column-2 { left: var(--sidebar-column-width); }
+.column-3 { left: calc(var(--sidebar-column-width) * 2); }
 /* Sidebar Divider */
 .divider {
     position: absolute;
@@ -299,6 +303,7 @@
     background-color: white;
 }
 .divider-1 { left: 298.5px; }
+.divider-2 { left: 598.5px; }
 /* Sidebar Section */
 .sidebar-section {
     padding-bottom: 13px;
@@ -362,7 +367,7 @@
 .toggle-off { background-color: maroon; }
 
 /* Ban Pick Management Select*/
-.ban-pick-management-select {
+.ban-pick-management-select, .match-select {
     width: var(--sidebar-column-width);
     text-align: center;
     color: var(--dark-gray);
@@ -372,7 +377,8 @@
     font-weight: 700;
     font-size: 1.25em;
 }
-.ban-pick-management-select::-webkit-scrollbar { display: none; }
+.ban-pick-management-select::-webkit-scrollbar,
+.match-select::-webkit-scrollbar { display: none; }
 /* Which Map */
 .which-map-select {
     width: var(--sidebar-column-width);

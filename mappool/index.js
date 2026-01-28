@@ -1,5 +1,7 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
+import { loadMatches, findMatch } from "../_shared/core/matches.js"
 import { toggleStars, setDefaultStarCount, updateStarCount, isStarOn } from "../_shared/core/stars.js"
+import { loadTeams, findTeam } from "../_shared/core/teams.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 // Star Containers
@@ -12,12 +14,18 @@ const pickContainerEl = document.getElementById("pick-container")
 // Mappool Management Maps
 const mappoolManagementMapsEl = document.getElementById("mappool-management-maps")
 
+// Match Select
+const matchSelectEl = document.getElementById("match-select")
+
 // Load mappool
 let bestOf = 0
 let banCount = 0
 const roundNameEl = document.getElementById("round-name")
 let allBeatmaps = []
-Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
+let allTeams = []
+let allMatches = []
+
+Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams, matches]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = `// ${beatmaps.roundName} mappool`
@@ -80,7 +88,22 @@ Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
         button.textContent = `${allBeatmaps[i].mod}${allBeatmaps[i].order}`
         mappoolManagementMapsEl.append(button)
     }
+
+    // Load teams and matches
+    allTeams = teams
+    allMatches = matches
+
+    // Load matches into match selection
+    for (let i = 0; i < matches.length; i++) {
+        const option = document.createElement("option")
+        option.setAttribute("value", matches[i].id)
+        option.textContent = `${shortenString(matches[i].team_a)} vs ${shortenString(matches[i].team_b)}`
+        matchSelectEl.append(option)
+    }
 })
+
+// Shorten string
+const shortenString = str => str.length > 10 ? str.slice(0, 10) + "..." : str
 
 // Ban Containers
 const teamRedBanContainerEl = document.getElementById("team-red-ban-container")
@@ -188,16 +211,6 @@ const socket = createTosuWsSocket()
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
     console.log(data)
-
-    // Setting team names
-    if (currentTeamRedName !== data.tourney.team.left) {
-        currentTeamRedName = data.tourney.team.left
-        teamRedNameEl.textContent = currentTeamRedName
-    }
-    if (currentTeamBlueName !== data.tourney.team.right) {
-        currentTeamBlueName = data.tourney.team.right
-        teamBlueNameEl.textContent = currentTeamBlueName
-    }
 }
 
 // Update Star Count Buttons
@@ -213,6 +226,9 @@ const nextAutopickBlueEl = document.getElementById("next-autopick-blue")
 const toggleAutopickButtonEl = document.getElementById("toggle-autopick-button")
 const toggleAutopickOnOffEl = document.getElementById("toggle-autopick-on-off")
 let isAutopickOn = false, currentPicker = "red"
+
+// Apply Match button
+const applyMatchButtonEl = document.getElementById("apply-match")
 
 // Toggle stars button
 const toggleStarButtonEl = document.getElementById("toggle-stars-button")
@@ -244,6 +260,9 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPickerBlueEl.addEventListener("click", () => updateCurrentPicker("blue"))
     currentPickerNoneEl.addEventListener("click", () => updateCurrentPicker("none"))
     currentPickerNoneEl.click()
+
+    // Apply match button
+    applyMatchButtonEl.addEventListener("click", () => applyMatch())
 })
 
 // Setting current picker
@@ -260,4 +279,18 @@ function updateCurrentPicker(side) {
 function setAutopicker(picker) {
     currentPicker = picker
     nextAutopickNextEl.textContent = `${currentPicker.substring(0, 1).toUpperCase()}${currentPicker.substring(1)}`
+}
+
+// Apply Match
+async function applyMatch() {
+    const match = await findMatch(matchSelectEl.value)
+    if (!match) return
+
+    // Team A
+    currentTeamRedName = match.team_a
+    teamRedNameEl.textContent = currentTeamRedName
+
+    // Team B
+    currentTeamBlueName = match.team_b
+    teamBlueNameEl.textContent = currentTeamBlueName
 }
