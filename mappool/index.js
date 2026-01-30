@@ -1,4 +1,6 @@
+import { getLogsApi } from "../_shared/core/apis.js"
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
+import { updateChat } from "../_shared/core/chat.js"
 import { loadMatches, findMatch } from "../_shared/core/matches.js"
 import { toggleStars, setDefaultStarCount, updateStarCount, isStarOn } from "../_shared/core/stars.js"
 import { loadTeams, findTeam } from "../_shared/core/teams.js"
@@ -204,13 +206,17 @@ function mapClickEvent(event) {
 // Team Names
 const teamRedNameEl = document.getElementById("team-red-name")
 const teamBlueNameEl = document.getElementById("team-blue-name")
-let currentTeamRedName, currentTeamBlueName
+let currentTeamRedName, currentTeamBlueName, currentTeamRed, currentTeamBlue
 
 // Winner Checking Variables
 let noOfClients, currentRedScore, currentBlueScore, checkedWinner = false
 
 // Mappool Variables
 let mapId, mapChecksum
+
+// Chat variables
+const chatDisplayWrapperEl = document.getElementById("chat-display-wrapper")
+let chatLen = 0
 
 // Socket
 const socket = createTosuWsSocket()
@@ -278,6 +284,11 @@ socket.onmessage = event => {
         } else {
             setAutopicker("none")
         }
+    }
+
+    // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
+    if (chatLen !== data.tourney.chat.length) {
+        chatLen = updateChat(data.tourney, chatLen, chatDisplayWrapperEl, true, getLogsApi(), currentTeamRed, currentTeamBlue)
     }
 }
 
@@ -356,9 +367,11 @@ async function applyMatch() {
 
     // Team A
     currentTeamRedName = match.team_a
+    currentTeamRed = findTeam(currentTeamRedName)
     teamRedNameEl.textContent = currentTeamRedName
 
     // Team B
     currentTeamBlueName = match.team_b
+    currentTeamBlue = findTeam(currentTeamBlueName)
     teamBlueNameEl.textContent = currentTeamBlueName
 }
