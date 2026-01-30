@@ -206,11 +206,49 @@ const teamRedNameEl = document.getElementById("team-red-name")
 const teamBlueNameEl = document.getElementById("team-blue-name")
 let currentTeamRedName, currentTeamBlueName
 
+// Variables
+let noOfClients, currentRedScore, currentBlueScore, checkedWinner = false
+
 // Socket
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
     console.log(data)
+
+    if (noOfClients !== data.tourney.clients.length) {
+        noOfClients = data.tourney.clients.length
+    }
+
+    if (noOfClients > 0) {
+        // If in gameplay or results
+        if (data.beatmap.time.live < data.beatmap.time.lastObject) {
+            currentRedScore = 0
+            currentBlueScore = 0
+            for (let i = 0; i < noOfClients; i++) {
+                const score = data.tourney.clients[i].play.score
+                if (data.tourney.clients[i].team === "left") currentRedScore += score
+                else currentBlueScore += score
+            }
+            checkedWinner = false
+        } else {
+            if (!checkedWinner && currentPickTile && isStarOn()) {
+                checkedWinner = true
+
+                const winner = currentRedScore > currentBlueScore ? "red" : currentBlueScore > currentRedScore ? "blue" : undefined
+                console.log(winner)
+                if (winner) {
+                    console.log(currentPickTile.children[2])
+                    currentPickTile.children[2].setAttribute("src", `static/winner-crowns/winner-${winner}-map.png`)
+                    currentPickTile.children[2].style.display = "block"
+                }
+            }
+        }
+    } else {
+        // If in main lobby scene
+        currentRedScore = 0
+        currentBlueScore = 0
+        checkedWinner = false
+    }
 }
 
 // Update Star Count Buttons
