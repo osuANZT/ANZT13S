@@ -24,8 +24,6 @@ let bestOf = 0
 let banCount = 0
 const roundNameEl = document.getElementById("round-name")
 let allBeatmaps = []
-let allTeams = []
-let allMatches = []
 
 Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams, matches]) => {
     // Load beatmaps
@@ -45,6 +43,12 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
             bestOf = 13
             banCount = 2
             break
+    }
+
+    // Create ban images
+    for (let i = 0; i < banCount; i++) {
+        teamRedBanContainerEl.append(createBanImage())
+        teamBlueBanContainerEl.append(createBanImage())
     }
 
     // Set default star count
@@ -91,10 +95,6 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
         mappoolManagementMapsEl.append(button)
     }
 
-    // Load teams and matches
-    allTeams = teams
-    allMatches = matches
-
     // Load matches into match selection
     for (let i = 0; i < matches.length; i++) {
         const option = document.createElement("option")
@@ -103,6 +103,12 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
         matchSelectEl.append(option)
     }
 })
+
+// Create Ban Image
+function createBanImage() {
+    const image = document.createElement("img")
+    return image
+}
 
 // Shorten string
 const shortenString = str => str.length > 10 ? str.slice(0, 10) + "..." : str
@@ -154,13 +160,12 @@ function mapClickEvent(event) {
     // If ban
     if (action === "ban") {
         const currentElement = team === "red" ? teamRedBanContainerEl : teamBlueBanContainerEl
-        currentElement.style.display = "flex"
 
-        if (currentElement.childElementCount < 1 + banCount) {
-            const categoryImage = document.createElement("img")
-            categoryImage.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
-            categoryImage.dataset.id = currentMap.beatmap_id
-            currentElement.append(categoryImage)
+        for (let i = 1; i < currentElement.childElementCount; i++) {
+            const imageElement = currentElement.children[i]
+            if (imageElement.hasAttribute("data-id")) continue
+            setBanDetails(imageElement, currentMap)
+            break
         }
     }
 
@@ -201,6 +206,13 @@ function mapClickEvent(event) {
             currentMapWinScoresEl.style.display = "none"
         }
     }
+}
+
+// Set Ban Details
+function setBanDetails(element, currentMap) {
+    element.parentElement.style.display = "flex"
+    element.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
+    element.dataset.id = currentMap.beatmap_id
 }
 
 // Team Names
@@ -416,6 +428,11 @@ function setBanPickAction() {
         whichTeamSelect.setAttribute("size", whichTeamSelect.childElementCount)
         banPickManagementEl.append(whichTeamSelect)
 
+        if (whichTeamSelect.options.length > 0) {
+            whichTeamSelect.selectedIndex = 0
+            whichTeamSelect.dispatchEvent(new Event("change"))
+        }
+
         if (currentAction === "setBan") makeTeamAddMaps()
     }
 
@@ -456,7 +473,6 @@ function setBanPickAction() {
     // Apply changes button
     const applyChangesButton = document.createElement("button")
     applyChangesButton.classList.add("sidebar-button", "full-size-button", "apply-changes-button")
-    applyChangesButton.style.color = "var(--dark-gray)"
     applyChangesButton.textContent = "Apply Changes"
 
     // Apply changes clicks
@@ -469,6 +485,7 @@ function setBanPickAction() {
         case "removeWinner": applyChangesButton.addEventListener("click", sidebarRemoveWinnerAction); break;
     }
     banPickManagementEl.append(applyChangesButton)
+
 }
 
 // Make sidebar text
@@ -536,8 +553,9 @@ let currentBanContainer, currentBanTeam
 function setBanContainer(element) {
     const currentBanElements = element.value.split("|")
     currentBanTeam = currentBanElements[0]
-    if (currentBanTeam === "red") currentBanContainer = redChoiceContainerEl.querySelectorAll(".ban-container")[currentBanElements[1] - 1]
-    else currentBanContainer = blueChoiceContainerEl.querySelectorAll(".ban-container")[currentBanElements[1] - 1]
+    if (currentBanTeam === "red") currentBanContainer = teamRedBanContainerEl.querySelectorAll("img")[currentBanElements[1] - 1]
+    else currentBanContainer = teamBlueBanContainerEl.querySelectorAll("img")[currentBanElements[1] - 1]
+    console.log(currentBanContainer)
 }
 
 // Set Piock Container
@@ -578,8 +596,10 @@ function setSidebarBeatmap(element) {
     sidebarButtonBeatmap = element.dataset.id
     for (let i = 0; i < whichMapButtons.length; i++) {
         whichMapButtons[i].style.backgroundColor = "transparent"
+        whichMapButtons[i].style.color = "unset"
     }
     element.style.backgroundColor = selectedBGColour
+    element.style.color = "black"
 }
 
 // Sidebar Set Ban Pick ACtion
@@ -596,9 +616,9 @@ async function sidebarSetBanPickAction(element) {
 }
 // Sidebar Set Ban Action
 async function sidebarSetBanAction() {
-    if (!currentBanContainer) return
-    sidebarSetBanPickAction(currentBanContainer)
-    await setBanDetails(currentBanContainer, currentBanTeam)
+    if (!currentBanContainer || !sidebarButtonBeatmap) return
+    const currentMap = findBeatmap(sidebarButtonBeatmap)
+    setBanDetails(currentBanContainer, currentMap)
 }
 function sidebarSetPickAction() { sidebarSetBanPickAction(currentPickContainer) }
 
