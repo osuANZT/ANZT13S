@@ -614,41 +614,35 @@ async function sidebarSetBanPickAction(element) {
     // Set details for element + animation
     await setTileDetails(element, currentMap)
 }
+
 // Sidebar Set Ban Action
-async function sidebarSetBanAction() {
+function sidebarSetBanAction() {
     if (!currentBanContainer || !sidebarButtonBeatmap) return
     const currentMap = findBeatmap(sidebarButtonBeatmap)
     setBanDetails(currentBanContainer, currentMap)
 }
+
+// Sidebar Remove Ban Action
+function sidebarRemoveBanAction() { 
+    if (!currentBanContainer) return
+
+    // Remove details
+    currentBanContainer.removeAttribute("src")
+    currentBanContainer.removeAttribute("data-id")
+
+    // Potentially remove display
+    const banContainerParent = currentBanContainer.parentElement
+    const allBanImages = banContainerParent.getElementsByTagName("img")
+    let banCount = 0
+    for (let i = 0; i < allBanImages.length; i++) {
+        if (allBanImages[i].hasAttribute("src")) banCount++
+    }
+    if (banCount === 0) banContainerParent.style.display = "none"
+}
+
 function sidebarSetPickAction() { sidebarSetBanPickAction(currentPickContainer) }
 
-// Sidebare Remove Ban Pick Action
-async function sidebareRemoveBanPickAction(element) {
-    if (!element) return
-
-    // Remove ban element
-    element.children[2].style.opacity = 0
-    await delay(500)
-
-    // Start doing animations
-    element.children[1].children[0].style.opacity = 0
-    element.children[1].children[1].style.opacity = 0
-    element.children[1].children[2].style.opacity = 0
-    await delay(500)
-    element.children[0].style.width = "0%"
-    element.children[1].style.width = "0%"
-    await delay(500)
-
-    // Remove ban
-    element.removeAttribute("data-id")
-    element.children[2].children[0].textContent = ""
-    element.children[0].style.backgroundImage = "unset"
-    element.children[1].children[0].textContent = ""
-    element.children[1].children[1].textContent = ""
-    element.children[1].children[2].textContent = ""
-}
 // Sidebar Remove Ban / Pick Action functions
-function sidebarRemoveBanAction() { sidebareRemoveBanPickAction(currentBanContainer) }
 function sidebarRemovePickAction() { sidebareRemoveBanPickAction(currentPickContainer) }
 
 // Sidebar Set Winner Action
