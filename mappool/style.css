@@ -401,3 +401,11 @@
 .which-pick-button {
     width: 125px;
 }
+
+/* Not Yet Picked Video */
+.not-yet-picked-video, .pick-video {
+    position: absolute;
+    width: 2560px;
+    opacity: 0;
+    transition: 500ms ease-in-out;
+}

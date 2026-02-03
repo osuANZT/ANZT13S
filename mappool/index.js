@@ -132,6 +132,15 @@ const currentMapPickerEl = document.getElementById("current-map-picker")
 const currentMapWinResultEl = document.getElementById("current-map-win-result")
 const currentMapWinScoresEl = document.getElementById("current-map-win-scores")
 
+// Not Yet Picked Video
+const notYetPickedVideoRedEl = document.getElementById("not-yet-picked-video-red")
+const notYetPickedVideoBlueEl = document.getElementById("not-yet-picked-video-blue")
+let currentNotYetPicked, notYetPicked = true
+
+// Pick Videos
+const pickVideoRedEl = document.getElementById("pick-video-red")
+const pickVideoBlueEl = document.getElementById("pick-video-blue")
+
 // Map Click Event
 function mapClickEvent(event) {
     // Find map
@@ -184,6 +193,15 @@ function mapClickEvent(event) {
             currentTile.children[4].textContent = `${team.toUpperCase()} PICK`
             currentPickTile = currentTile
             mapsFound = 1
+            notYetPicked = false
+
+            if (team === "red") {
+                pickVideoRedEl.style.opacity = 1
+                pickVideoBlueEl.style.opacity = 0
+            } else if (team === "blue") {
+                pickVideoRedEl.style.opacity = 0
+                pickVideoBlueEl.style.opacity = 1
+            }
             break
         }
 
@@ -236,12 +254,32 @@ socket.onmessage = event => {
     const data = JSON.parse(event.data)
     console.log(data)
 
+    // Current not yet picked
+    if (currentNotYetPicked !== currentPicker) {
+        currentNotYetPicked = currentPicker
+    }
+    if (currentNotYetPicked && isStarOn() && notYetPicked) {
+        if (currentNotYetPicked === "red") {
+            notYetPickedVideoRedEl.style.opacity = 1
+            notYetPickedVideoBlueEl.style.opacity = 0
+        } else if (currentNotYetPicked === "blue") {
+            notYetPickedVideoRedEl.style.opacity = 0
+            notYetPickedVideoBlueEl.style.opacity = 1
+        } else if (currentNotYetPicked === "none") {
+            notYetPickedVideoRedEl.style.opacity = 0
+            notYetPickedVideoBlueEl.style.opacity = 0
+        }
+    } else {
+        notYetPickedVideoRedEl.style.opacity = 0
+        notYetPickedVideoBlueEl.style.opacity = 0
+    }
+
     if (noOfClients !== data.tourney.clients.length) {
         noOfClients = data.tourney.clients.length
     }
 
     if (noOfClients > 0) {
-        // If in gameplay or results
+        // Gameplay
         if (data.beatmap.time.live < data.beatmap.time.lastObject) {
             currentRedScore = 0
             currentBlueScore = 0
@@ -252,15 +290,17 @@ socket.onmessage = event => {
             }
             checkedWinner = false
         } else {
+            // Results
             if (!checkedWinner && currentPickTile && isStarOn()) {
                 checkedWinner = true
 
                 const winner = currentRedScore > currentBlueScore ? "red" : currentBlueScore > currentRedScore ? "blue" : undefined
                 if (winner) {
-                    console.log(currentPickTile.children[2])
                     currentPickTile.children[2].setAttribute("src", `static/winner-crowns/winner-${winner}-map.png`)
                     currentPickTile.children[2].style.display = "block"
                 }
+
+                notYetPicked = false
             }
         }
     } else {
@@ -657,7 +697,6 @@ function sidebarRemovePickAction() {
 
 // Sidebar Set Winner Action
 function sidebarSetWinnerAction() {
-    console.log(sidebarButtonPickNumber)
     if (!sidebarButtonPickNumber) return
     const currentTile = pickContainerEl.children[sidebarButtonPickNumber - 1]
     const team = document.getElementById("which-team-select").value
