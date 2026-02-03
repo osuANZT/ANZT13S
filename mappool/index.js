@@ -449,23 +449,13 @@ function setBanPickAction() {
         banPickManagementEl.append(whichPickSelect)
 
         // Set Pick
-        if (currentAction === "setPick") makeTeamAddMaps()
+        if (currentAction === "setPick") {
+            makeTeamAddMaps()
+            whichTeamSelect("Which Team Pick?")
+        }
 
         // Set Winner
-        if (currentAction === "setWinner") {
-            // Which team?
-            makeSidebarText("Which Team Won?")
-
-            // Which Team Select
-            const whichTeamSelect = document.createElement("select")
-            whichTeamSelect.setAttribute("id", "which-team-select")
-            whichTeamSelect.classList.add("ban-pick-management-select")
-            whichTeamSelect.setAttribute("size", 2)
-
-            // Which Team Select Options
-            whichTeamSelect.append(makeTeamSelectOption("red"), makeTeamSelectOption("blue"))
-            banPickManagementEl.append(whichTeamSelect)
-        }
+        if (currentAction === "setWinner") whichTeamSelect("Which Team Won?")
     }
 
     // Apply changes button
@@ -546,6 +536,23 @@ function setSidebarPick(element) {
     setPickContainer(element)
 }
 
+// Which Team Select
+function whichTeamSelect(text) {
+    // Which team?
+    makeSidebarText(text)
+
+    // Which Team Select
+    const whichTeamSelect = document.createElement("select")
+    whichTeamSelect.setAttribute("id", "which-team-select")
+    whichTeamSelect.classList.add("ban-pick-management-select")
+    whichTeamSelect.setAttribute("size", 2)
+
+    // Which Team Select Options
+    whichTeamSelect.append(makeTeamSelectOption("red"), makeTeamSelectOption("blue"))
+    banPickManagementEl.append(whichTeamSelect)
+}
+
+
 // Add Ban Container
 let currentBanContainer, currentBanTeam
 function setBanContainer(element) {
@@ -561,7 +568,7 @@ let currentPickContainer, currentPickTeam
 function setPickContainer(element) {
     const currentPickElement = element
     currentPickTeam = currentPickElement.dataset.side
-    if (currentPickTeam === "red") currentPickContainer = redChoiceContainerEl.querySelectorAll(".red-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
+    if (currentPickTeam === "red") currentPickContainer = pickContainer.querySelectorAll(".red-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
     else if (currentPickTeam === "blue") currentPickContainer = blueChoiceContainerEl.querySelectorAll(".blue-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
     else if (currentPickTeam === "TB") currentPickContainer = tiebreakerPickContainerEl
 }
@@ -600,19 +607,6 @@ function setSidebarBeatmap(element) {
     element.style.color = "black"
 }
 
-// Sidebar Set Ban Pick ACtion
-async function sidebarSetBanPickAction(element) {
-    if (!element) return
-
-    // Get map
-    if (!sidebarButtonBeatmap) return
-    const currentMap = findBeatmap(sidebarButtonBeatmap)
-    if (!currentMap) return
-
-    // Set details for element + animation
-    await setTileDetails(element, currentMap)
-}
-
 // Sidebar Set Ban Action
 function sidebarSetBanAction() {
     if (!currentBanContainer || !sidebarButtonBeatmap) return
@@ -638,10 +632,36 @@ function sidebarRemoveBanAction() {
     if (banCount === 0) banContainerParent.style.display = "none"
 }
 
-function sidebarSetPickAction() { sidebarSetBanPickAction(currentPickContainer) }
+function sidebarSetPickAction() {
+    if (!sidebarButtonPickNumber || !sidebarButtonBeatmap || !document.getElementById("which-team-select").value) return
+    const currentMap = findBeatmap(sidebarButtonBeatmap)
+    const currentTile = pickContainerEl.children[sidebarButtonPickNumber]
+    const team = document.getElementById("which-team-select").value
+    currentTile.style.display = "block"
+    currentTile.dataset.id = currentMap.beatmap_id
+    currentTile.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
+    currentTile.children[0].setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
+    currentTile.children[3].setAttribute("src", `static/pick-bgs/${team}-pick-bg.png`)
+    currentTile.children[4].textContent = `${team.toUpperCase()} PICK`
+}
 
 // Sidebar Remove Ban / Pick Action functions
-function sidebarRemovePickAction() { sidebareRemoveBanPickAction(currentPickContainer) }
+function sidebarRemovePickAction() { 
+    // <div class="pick-tile" data-id="3678730" style="display: block; background-image: url(&quot;https://assets.ppy.sh/beatmaps/1794786/covers/cover.jpg&quot;);">
+    //     <img class="pick-tile-category absolute-center-x" src="../_shared/assets/category-images/AIM1.png">
+    //     <img class="pick-tile-border" src="static/panel-border.png"><img class="pick-tile-winner-crown absolute-center-x">
+    //     <img class="pick-tile-bottom-bg" src="static/pick-bgs/red-pick-bg.png">
+    //     <div class="pick-tile-bottom-text">RED PICK</div>
+    // </div>
+
+    // <div class="pick-tile">
+    //     <img class="pick-tile-category absolute-center-x">
+    //     <img class="pick-tile-border" src="static/panel-border.png">
+    //     <img class="pick-tile-winner-crown absolute-center-x">
+    //     <img class="pick-tile-bottom-bg">
+    //     <div class="pick-tile-bottom-text"></div>
+    // </div>
+}
 
 // Sidebar Set Winner Action
 function sidebarSetWinnerAction() {
