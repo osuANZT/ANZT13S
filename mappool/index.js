@@ -256,7 +256,6 @@ socket.onmessage = event => {
                 checkedWinner = true
 
                 const winner = currentRedScore > currentBlueScore ? "red" : currentBlueScore > currentRedScore ? "blue" : undefined
-                console.log(winner)
                 if (winner) {
                     console.log(currentPickTile.children[2])
                     currentPickTile.children[2].setAttribute("src", `static/winner-crowns/winner-${winner}-map.png`)
@@ -560,7 +559,6 @@ function setBanContainer(element) {
     currentBanTeam = currentBanElements[0]
     if (currentBanTeam === "red") currentBanContainer = teamRedBanContainerEl.querySelectorAll("img")[currentBanElements[1] - 1]
     else currentBanContainer = teamBlueBanContainerEl.querySelectorAll("img")[currentBanElements[1] - 1]
-    console.log(currentBanContainer)
 }
 
 // Set Piock Container
@@ -635,7 +633,7 @@ function sidebarRemoveBanAction() {
 function sidebarSetPickAction() {
     if (!sidebarButtonPickNumber || !sidebarButtonBeatmap || !document.getElementById("which-team-select").value) return
     const currentMap = findBeatmap(sidebarButtonBeatmap)
-    const currentTile = pickContainerEl.children[sidebarButtonPickNumber]
+    const currentTile = pickContainerEl.children[sidebarButtonPickNumber - 1]
     const team = document.getElementById("which-team-select").value
     currentTile.style.display = "block"
     currentTile.dataset.id = currentMap.beatmap_id
@@ -646,37 +644,32 @@ function sidebarSetPickAction() {
 }
 
 // Sidebar Remove Ban / Pick Action functions
-function sidebarRemovePickAction() { 
-    // <div class="pick-tile" data-id="3678730" style="display: block; background-image: url(&quot;https://assets.ppy.sh/beatmaps/1794786/covers/cover.jpg&quot;);">
-    //     <img class="pick-tile-category absolute-center-x" src="../_shared/assets/category-images/AIM1.png">
-    //     <img class="pick-tile-border" src="static/panel-border.png"><img class="pick-tile-winner-crown absolute-center-x">
-    //     <img class="pick-tile-bottom-bg" src="static/pick-bgs/red-pick-bg.png">
-    //     <div class="pick-tile-bottom-text">RED PICK</div>
-    // </div>
-
-    // <div class="pick-tile">
-    //     <img class="pick-tile-category absolute-center-x">
-    //     <img class="pick-tile-border" src="static/panel-border.png">
-    //     <img class="pick-tile-winner-crown absolute-center-x">
-    //     <img class="pick-tile-bottom-bg">
-    //     <div class="pick-tile-bottom-text"></div>
-    // </div>
+function sidebarRemovePickAction() {
+    if (!sidebarButtonPickNumber) return
+    const currentTile = pickContainerEl.children[sidebarButtonPickNumber - 1]
+    currentTile.style.display = "none"
+    currentTile.removeAttribute("data-id")
+    currentTile.style.backgroundImage = `unset`
+    currentTile.children[0].removeAttribute("src")
+    currentTile.children[3].removeAttribute("src")
+    currentTile.children[4].textContent = ""
 }
 
 // Sidebar Set Winner Action
 function sidebarSetWinnerAction() {
-    if (!currentPickContainer) return
+    console.log(sidebarButtonPickNumber)
+    if (!sidebarButtonPickNumber) return
+    const currentTile = pickContainerEl.children[sidebarButtonPickNumber - 1]
+    const team = document.getElementById("which-team-select").value
 
-    // Team Select Value
-    const teamSelectValue = document.getElementById("which-team-select").value
-    currentPickContainer.children[2].style.opacity = 1
-    currentPickContainer.children[2].children[0].textContent = `${teamSelectValue} wins`
+    currentTile.children[2].style.display = "block"
+    currentTile.children[2].setAttribute("src", `static/winner-crowns/winner-${team}-map.png`)
 }
 
 // Sidebar Remove Winner Action
 function sidebarRemoveWinnerAction() {
-    if (!currentPickContainer) return
-
-    currentPickContainer.children[2].style.opacity = 1
-    currentPickContainer.children[2].children[0].textContent = ""
+    if (!sidebarButtonPickNumber) return
+    const currentTile = pickContainerEl.children[sidebarButtonPickNumber - 1]
+    currentTile.children[2].style.display = "none"
+    currentTile.children[2].removeAttribute("src")
 }
