@@ -409,3 +409,4 @@
     opacity: 0;
     transition: 500ms ease-in-out;
 }
+.pick-video { top: -70px; }
