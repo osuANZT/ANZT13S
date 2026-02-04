@@ -298,7 +298,7 @@ socket.onmessage = event => {
 
                 const winner = currentRedScore > currentBlueScore ? "red" : currentBlueScore > currentRedScore ? "blue" : undefined
                 if (winner) {
-                    currentPickTile.children[2].setAttribute("src", `static/winner-crowns/winner-${winner}-map.png`)
+                    currentPickTile.children[2].setAttribute("src", `../_shared/assets/winner-crowns/winner-${winner}-map.png`)
                     currentPickTile.children[2].style.display = "block"
                 }
 
@@ -754,7 +754,7 @@ function sidebarSetWinnerAction() {
     const team = document.getElementById("which-team-select").value
 
     currentTile.children[2].style.display = "block"
-    currentTile.children[2].setAttribute("src", `static/winner-crowns/winner-${team}-map.png`)
+    currentTile.children[2].setAttribute("src", `../_shared/assets/winner-crowns/winner-${team}-map.png`)
 }
 
 // Sidebar Remove Winner Action
