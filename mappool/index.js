@@ -392,8 +392,7 @@ socket.onmessage = event => {
         logData.scoreInfo.team.right = scoresRight
     }
 
-    console.log(logData)
-    // sendLog(logData, "log", getLogsApi())
+    sendLog(logData, "log", getLogsApi())
 }
 
 // Update Star Count Buttons
