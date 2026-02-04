@@ -1,5 +1,9 @@
 :root {
     --team-name-x: 1720px;
+    --score-bar-x: 50%;
+    --score-bar-height: 13px;
+    --score-bar-height-half: calc((var(--score-bar-height) / 2));
+    --score-x: 1346px;
 
     --light-gray: rgb(209, 209, 209);
 }
@@ -110,4 +114,56 @@
 .now-playing-mapper {
     color: white;
     font-weight: 700;
+}
+
+/* Playing Score Area */
+.playing-score-container {
+    position: absolute;
+    top: 1242px;
+    width: 2560px;
+}
+/* Score bars */
+.score-bar {
+    position: absolute;
+    background-color: white;
+    width: 235px;
+    height: var(--score-bar-height);
+}
+.score-bar-left {
+    right: var(--score-bar-x);
+    border-radius: var(--score-bar-height-half) 0 0 var(--score-bar-height-half);
+}
+.score-bar-right {
+    left: var(--score-bar-x);
+    border-radius: 0 var(--score-bar-height-half) var(--score-bar-height-half) 0;
+}
+/* Score Difference */
+.score-difference {
+    position: absolute;
+    top: 5px;
+    font-size: 27px;
+    font-weight: 700;
+    color: white;
+}
+.score-difference-left { right: var(--score-x); }
+.score-difference-right { left: var(--score-x); }
+/* Scores */
+.score {
+    position: absolute;
+    top: 35px;
+    font-size: 38px;
+    font-weight: 600;
+    color: white;
+}
+.score-left { right: var(--score-x); }
+.score-right { left: var(--score-x); }
+.score-lead {
+    top: 26px;
+    font-size: 54px;
+}
+
+/* Crown */
+.crown {
+    top: -29px;
+    height: 170px;
 }
