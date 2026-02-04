@@ -73,7 +73,7 @@ export function updateChat(
                 }
             }
 
-            sendLog(chatLogData, "chat", api)
+            // sendLog(chatLogData, "chat", api)
         }
     }
 

@@ -64,13 +64,17 @@
 
 /* Chat Box */
 .chat-box {
-    top: 1260px;
+    position: absolute;
+    left: 1283px;
+    transform: translateX(-50%);
 }
 
 /* Chat Display Container */
 .chat-display-container {
-    top: 1262px;
-    height: 148px;
+    position: absolute;
+    left: 873px;
+    width: 815px;
+    border-radius: 20px;
 }
 .chat-display-wrapper {
     --margin: 7px;

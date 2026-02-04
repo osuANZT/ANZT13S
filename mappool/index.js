@@ -1,4 +1,4 @@
-import { getLogsApi } from "../_shared/core/apis.js"
+import { getLogsApi, sendLog } from "../_shared/core/apis.js"
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { updateChat } from "../_shared/core/chat.js"
 import { loadMatches, findMatch } from "../_shared/core/matches.js"
@@ -392,7 +392,7 @@ socket.onmessage = event => {
         logData.scoreInfo.team.right = scoresRight
     }
 
-    sendLog(logData, "log", getLogsApi())
+    // sendLog(logData, "log", getLogsApi())
 }
 
 // Update Star Count Buttons
