@@ -480,6 +480,9 @@ async function applyMatch() {
     currentTeamBlueName = match.team_b
     currentTeamBlue = findTeam(currentTeamBlueName)
     teamBlueNameEl.textContent = currentTeamBlueName
+
+    document.cookie = `currentTeamRedName=${currentTeamRedName}; path=/`
+    document.cookie = `currentTeamBlueName=${currentTeamBlueName}; path=/`
 }
 
 // Set Ban Pick Action
