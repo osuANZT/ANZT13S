@@ -8,7 +8,9 @@ export function updateChat(
     logData,
     api,
     currentTeamRed,
-    currentTeamBlue
+    currentTeamBlue,
+    currentTeamRedName,
+    currentTeamBlueName
 ) {
     const chatData = tourneyData.chat
     if (chatLength === 0 || chatLength > chatData.length) {
@@ -38,11 +40,13 @@ export function updateChat(
         const chatName = chatData[i].name
         messageName.textContent = `${chatName}: `
         // Set class of chat
-        if (!currentTeamRed || !currentTeamBlue) messageName.classList.add("unknown")
-        else if (currentTeamRed["player1-name"] === chatName || currentTeamRed["player2-name"]) messageName.classList.add("left")
-        else if (currentTeamBlue["player1-name"] === chatName || currentTeamBlue["player2-name"]) messageName.classList.add("right")
+        let chatClass
+        if (!currentTeamRed || !currentTeamBlue) chatClass = "unknown"
+        else if (currentTeamRed["player1-name"] === chatName || currentTeamRed["player2-name"]) chatClass = "left"
+        else if (currentTeamBlue["player1-name"] === chatName || currentTeamBlue["player2-name"]) chatClass = "right"
         else if (chatName === "[FakeBanchoBot]") messageName.classList.add("bot")
-        else messageName.classList.add("unknown")
+        else chatClass = "unknown"
+        messageName.classList.add(chatClass)
 
         // Message
         const messageContent = document.createElement("span")
@@ -53,25 +57,24 @@ export function updateChat(
         messageWrapper.append(messageTime, messageWhole)
         fragment.append(messageWrapper)
 
-
         // Chat log data
-        // if (logData) {
-        //     const chatLogData = {
-        //         tournament: "VV",
-        //         team: {
-        //             left: tourneyData.team.left,
-        //             right: tourneyData.team.right
-        //         },
-        //         chatContent: {
-        //             team: chatData[i].team,
-        //             name: chatData[i].name,
-        //             message: chatData[i].message,
-        //             timestamp: chatData[i].timestamp
-        //         }
-        //     }
+        if (logData) {
+            const chatLogData = {
+                tournament: "ANZT13S",
+                team: {
+                    left: currentTeamRedName,
+                    right: currentTeamBlueName
+                },
+                chatContent: {
+                    team: chatClass,
+                    name: chatData[i].name,
+                    message: chatData[i].message,
+                    timestamp: chatData[i].timestamp
+                }
+            }
 
-        //     sendLog(chatLogData, "chat", api)
-        // }
+            sendLog(chatLogData, "chat", api)
+        }
     }
 
     chatDisplayContainerEl.append(fragment)

@@ -240,6 +240,7 @@ let currentTeamRedName, currentTeamBlueName, currentTeamRed, currentTeamBlue
 
 // Winner Checking Variables
 let noOfClients, currentRedScore, currentBlueScore, checkedWinner = false
+let currentState
 
 // Mappool Variables
 let mapId, mapChecksum
@@ -289,6 +290,7 @@ socket.onmessage = event => {
                 else currentBlueScore += score
             }
             checkedWinner = false
+            currentState = 3
         } else {
             // Results
             if (!checkedWinner && currentPickTile && isStarOn()) {
@@ -302,12 +304,14 @@ socket.onmessage = event => {
 
                 notYetPicked = false
             }
+            currentState = 4
         }
     } else {
         // If in main lobby scene
         currentRedScore = 0
         currentBlueScore = 0
         checkedWinner = false
+        currentState = 1
     }
 
     // Set beatmap information
@@ -339,8 +343,57 @@ socket.onmessage = event => {
 
     // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
     if (chatLen !== data.tourney.chat.length) {
-        chatLen = updateChat(data.tourney, chatLen, chatDisplayWrapperEl, true, getLogsApi(), currentTeamRed, currentTeamBlue)
+        chatLen = updateChat(data.tourney, chatLen, chatDisplayWrapperEl, true, getLogsApi(), currentTeamRed, currentTeamBlue, currentTeamRedName, currentTeamBlueName)
     }
+
+    // Log Data
+    const logData = {
+        tournament: "ANZT13S",
+        team: {
+            left: currentTeamRedName,
+            right: currentTeamBlueName
+        },
+        isStarOn: isStarOn(),
+        ipcState: currentState,
+        checkedWinner: checkedWinner,
+        playerInfo: {},
+        scoreInfo: {
+            team: {
+                left: 0,
+                right: 0
+            },
+            individual: {}
+        },
+        beatmapInfo: {
+            currentBeatmapId: mapId,
+            currentBeatmapDetails: findBeatmap(mapId)
+        }
+    }
+
+    // If not in lobby
+    if (currentState !== 1) {
+        const clients = data.tourney.clients
+        // Populate player info
+        for (let i = 0; i < noOfClients; i++) {
+            logData.playerInfo[`player${i + 1}Id`] = clients[i].user.id
+            logData.playerInfo[`player${i + 1}Name`] = clients[i].user.name
+        }
+
+        // Populate score info
+        let scoresLeft = 0, scoresRight = 0
+        for (let i = 0; i < noOfClients; i++) {
+            const currentScore = clients[i].play.score
+            logData.scoreInfo.individual[`player${i + 1}`] = currentScore
+            if (clients[i].team === "left") scoresLeft += currentScore
+            else scoresRight += currentScore
+        }
+
+        logData.scoreInfo.team.left = scoresLeft
+        logData.scoreInfo.team.right = scoresRight
+    }
+
+    console.log(logData)
+    // sendLog(logData, "log", getLogsApi())
 }
 
 // Update Star Count Buttons
@@ -561,7 +614,7 @@ const selectedBGColour = "#CECECE"
 
 // Set sidebar pick
 const whichPickButtons = document.getElementsByClassName("which-pick-button")
-let sidebarButtonPickSide, sidebarButtonPickNumber
+let sidebarButtonPickNumber
 function setSidebarPick(element) {
     sidebarButtonPickNumber = element.dataset.pickNumber
 
