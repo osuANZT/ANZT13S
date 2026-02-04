@@ -1,4 +1,5 @@
 import { loadBeatmaps } from "../_shared/core/beatmaps.js"
+import { toggleStarContainers, renderStars } from "../_shared/core/stars.js"
 import { getCookie } from "../_shared/core/utils.js"
 
 const roundNameEl = document.getElementById("round-name")
@@ -12,6 +13,11 @@ Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
 // Team Name Elements
 const teamRedNameEl = document.getElementById("team-red-name")
 const teamBlueNameEl = document.getElementById("team-blue-name")
+
+// Team star containers
+const redTeamStarContainerEl = document.getElementById("red-team-star-container")
+const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
+
 let currentTeamRedName, currentTeamBlueName, previousTeamRedName, previousTeamBlueName
 setInterval(() => {
     // Set team name information
@@ -26,4 +32,8 @@ setInterval(() => {
         previousTeamBlueName = currentTeamBlueName
         teamBlueNameEl.textContent = currentTeamBlueName
     }
+
+    // Toggle and render stars
+    toggleStarContainers(redTeamStarContainerEl, blueTeamStarContainerEl)
+    renderStars(redTeamStarContainerEl, blueTeamStarContainerEl)
 }, 200)
