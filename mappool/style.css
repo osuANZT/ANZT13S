@@ -258,14 +258,10 @@
 .full-size-button { width: 230px; }
 .full-size-button:active { color: var(--sidebar-background-colour); }
 /* Apply Changes Button */
-.apply-changes-button {
+.apply-changes-button, #apply-match {
     margin-top: 15px;
-    margin-left: 10px;
+    margin-left: 35px;
     height: 45px;
-}
-.apply-changes-button:active {
-    background-color: var(--dark-gray);
-    color: var(--light-gray);
 }
 /* Toggle Button */
 .toggle-on { background-color: green; }
