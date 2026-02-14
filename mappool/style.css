@@ -127,22 +127,10 @@
 }
 
 /* Pick Container */
-.pick-container {
-    top: 942px;
-    display: flex;
-    gap: 12px;
-}
+.pick-container { top: 942px; }
 
 /* Pick Tile */
-.pick-tile {
-    position: relative;
-    border-radius: 20px;
-    width: 175px;
-    height: 434px;
-    background: center / cover;
-    background-image: url("https://assets.ppy.sh/beatmaps/1752094/covers/cover.jpg");
-    display: none;
-}
+.pick-tile { display: none; }
 
 /* Pick Tile Border */
 .pick-tile-border {
@@ -157,10 +145,7 @@
 }
 
 /* Winner Crowns */
-.pick-tile-winner-crown {
-    bottom: 24px; 
-    display: none;
-}
+.pick-tile-winner-crown { display: none; }
 
 /* Pick Tile Bottom */
 .pick-tile-bottom-bg {

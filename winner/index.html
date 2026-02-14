@@ -5,10 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Winner Scene</title>
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../_shared/css/common.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="page-size main"></div>
+    <div class="page-size main">
+        <img class="logo absolute-center-x" src="static/logo.png">
+        <div class="round-name absolute-center-x">// RO24 Results</div>
+
+        <!-- Left Results -->
+        <img class="result-text result-text-left" src="static/result-text/winner.png">
+        <div class="team-background team-red-background"></div>
+        <div class="team-name team-red-name" id="team-red-name">team RRRRRRRRRRRR</div>
+        <div class="team-players team-players-left">
+            <span class="player-name" id="player1-name">mrekk</span> 
+            <span class="player-rank" id="player1-rank">#1</span> / 
+            <span class="player-name" id="player2-name">TheBronzeBoxBox</span> 
+            <span class="player-rank" id="player2-rank">#126</span>
+        </div>
+
+        <!-- Right Results -->
+        <img class="result-text result-text-right" src="static/result-text/loser.png">
+        <div class="team-background team-blue-background"></div>
+        <div class="team-name team-blue-name" id="team-blue-name">team B</div>
+        <div class="team-players team-players-right">
+            <span class="player-name" id="player3-name">mrekk</span> 
+            <span class="player-rank" id="player3-rank">#1</span> / 
+            <span class="player-name" id="player4-name">TheBronzeBoxBox</span> 
+            <span class="player-rank" id="player4-rank">#126</span>
+        </div>
+
+        <!-- Total Score -->
+        <div class="score-container absolute-center-x"><span id="score-left">5</span> - <span id="score-right">5</span></div>
+
+        <!-- Mappool Tile -->
+        <div class="pick-container absolute-center-x" id="pick-container">
+            <div class="pick-tile" data-id="2078195" style="display: block; background-image: url(&quot;https://assets.ppy.sh/beatmaps/993864/covers/cover.jpg&quot;);">
+                <img class="pick-tile-border" src="../_shared/assets/pick-container/panel-border.png">
+                <img class="pick-tile-winner-crown absolute-center-x" src="../_shared/assets/winner-crowns/winner-blue-map.png">
+            </div>
+        </div>
+    </div>
 </body>
 </html>

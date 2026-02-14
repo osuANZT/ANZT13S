@@ -63,7 +63,7 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
         // Pick Tile Border
         const pickTileBorder = document.createElement("img")
         pickTileBorder.classList.add("pick-tile-border")
-        pickTileBorder.setAttribute("src", "static/panel-border.png")
+        pickTileBorder.setAttribute("src", "../_shared/assets/pick-container/panel-border.png")
 
         // Pick Tile Winner Crown
         const pickTileWinnerCrown = document.createElement("img")

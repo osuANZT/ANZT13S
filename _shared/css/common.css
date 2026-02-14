@@ -1,5 +1,6 @@
 :root {
     --sidebar-background-colour: rgb(125, 93, 206);
+    --team-background-x: 459px;
 }
 
 /* Whole Page */
@@ -63,4 +64,83 @@
     color: rgb(143, 177, 246);
     font-weight: 700;
     position: absolute;
+}
+
+/* Team Background */
+.team-background {
+    position: absolute;
+    width: 388px;
+}
+.team-red-background {
+    background-image: linear-gradient( 90deg, rgb(208,146,146) 0%, rgb(200,34,112) 100%);
+    left: var(--team-background-x);
+    box-shadow: 0 0 10px 4px rgba(200, 34, 112, 0.5);
+}
+.team-blue-background {
+    background-image: linear-gradient( 90deg, rgb(1,50,233) 0%, rgb(0,219,222) 100%);
+    right: var(--team-background-x);
+    box-shadow: 0 0 10px 4px rgba(1, 50, 233, 0.5);
+}
+
+/* Team Name */
+.team-name {
+    position: absolute;
+    color: white;
+    font-weight: 700;
+    letter-spacing: -1px;
+    text-indent: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.team-red-name { 
+    right: var(--team-name-x);
+    text-align: right;
+}
+.team-blue-name { left: var(--team-name-x); }
+
+/* Team Players */
+.team-players {
+    font-size: 30px;
+    font-weight: 400;
+    color: rgb(185, 183, 183);
+    text-shadow: 0px 3px 7px rgba(0, 0, 0, 1);
+    position: absolute;
+    width: 554px;
+    height: 105px;
+    white-space: nowrap;
+}
+.player-rank { color: white; }
+
+/* Score Container */
+.score-container {
+    top: 522px;
+    font-size: 4em;
+    font-family: "Alan Sans";
+    font-weight: 700;
+    color: white;
+}
+
+/* Pick Container */
+.pick-container {
+    display: flex;
+    gap: 12px;
+}
+/* Pick Tile */
+.pick-tile {
+    position: relative;
+    border-radius: 20px;
+    width: 175px;
+    height: 434px;
+    background: center / cover;
+}
+/* Pick Tile Border */
+.pick-tile-border {
+    position: absolute;
+    top: -2px;
+    left: -5px;
+}
+/* Winner Crowns */
+.pick-tile-winner-crown {
+    bottom: 24px; 
 }

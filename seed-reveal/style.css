@@ -51,16 +51,8 @@
 
 /* Team Players */
 .team-players {
-    font-size: 30px;
-    font-weight: 400;
-    color: rgb(185, 183, 183);
-    text-shadow: 0px 3px 7px rgba(0, 0, 0, 1);
-    position: absolute;
     left: 271px;
     top: 324px;
-    width: 554px;
-    height: 105px;
-    white-space: nowrap;
 }
 .player-rank { color: white; }
 

@@ -1,1 +1,57 @@
-.main { background-image: url("static/background.png") ;}
+:root {
+    --result-text-x: 1776px;
+    --team-background-x: 360px;
+    --team-name-x: 1816px;
+    --team-players-x: 1814px;
+}
+
+/* Whole Page */
+.main {
+    font-family: "Alan Sans";
+    background-image: url("static/background.png");
+}
+
+/* Logo */
+.logo { top: 197px; }
+
+/* Round Name */
+.round-name {
+    font-size: 2em;
+    color: rgb(15, 46, 118);
+    font-weight: bold;
+    top: 313px;
+}
+
+/* Result Text */
+.result-text {
+    position: absolute;
+    top: 360px;
+}
+.result-text-left { right: var(--result-text-x); }
+.result-text-right { left: var(--result-text-x); }
+
+/* Team Background */
+.team-background {
+    top: 548px;
+    height: 34px;
+}
+
+/* Team Name */
+.team-name {
+    top: 549px;
+    font-size: 25px;
+}
+
+/* Team Players */
+.team-players { top: 597px; }
+.team-players-left {
+    text-align: right; 
+    right: var(--team-players-x);
+}
+.team-players-right {
+    text-align: left; 
+    left: var(--team-players-x);
+}
+
+/* Pick Container */
+.pick-container { top: 938px; }
