@@ -40,7 +40,8 @@ let currentWinnerString, previousWinnerString
 setInterval(async () => {
     // Get star count
     currentRedStarCount = Number(getCookie("redStarCount"))
-    currentBlueStarCount = Number(getCookie("redStarCount"))
+    currentBlueStarCount = Number(getCookie("blueStarCount"))
+
     renderImage = false
 
     // Set star counts

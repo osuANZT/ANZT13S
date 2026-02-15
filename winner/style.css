@@ -6,10 +6,7 @@
 }
 
 /* Whole Page */
-.main {
-    font-family: "Alan Sans";
-    background-image: url("static/background.png");
-}
+.main { font-family: "Alan Sans"; }
 
 /* Logo */
 .logo { top: 197px; }
