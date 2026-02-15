@@ -41,10 +41,11 @@ export function updateChat(
         messageName.textContent = `${chatName}: `
         // Set class of chat
         let chatClass
+        console.log(currentTeamRed, currentTeamBlue)
         if (!currentTeamRed || !currentTeamBlue) chatClass = "unknown"
-        else if (currentTeamRed["player1-name"] === chatName || currentTeamRed["player2-name"]) chatClass = "left"
-        else if (currentTeamBlue["player1-name"] === chatName || currentTeamBlue["player2-name"]) chatClass = "right"
-        else if (chatName === "[FakeBanchoBot]") messageName.classList.add("bot")
+        else if (currentTeamRed["player1-name"] === chatName || currentTeamRed["player2-name"] === chatName) chatClass = "left"
+        else if (currentTeamBlue["player1-name"] === chatName || currentTeamBlue["player2-name"] === chatName) chatClass = "right"
+        else if (chatData[i].message.includes("[FakeBanchoBot]")) messageName.classList.add("bot")
         else chatClass = "unknown"
         messageName.classList.add(chatClass)
 

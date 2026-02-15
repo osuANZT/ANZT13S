@@ -1,9 +1,10 @@
-import { getLogsApi, sendLog } from "../_shared/core/apis.js"
+import { getLogsApi, sendLog, initialiseLogsApi } from "../_shared/core/apis.js"
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { updateChat } from "../_shared/core/chat.js"
 import { loadMatches, findMatch } from "../_shared/core/matches.js"
 import { toggleStars, setDefaultStarCount, updateStarCount, isStarOn } from "../_shared/core/stars.js"
 import { loadTeams, findTeam } from "../_shared/core/teams.js"
+import { getCookie } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 // Star Containers
@@ -24,8 +25,13 @@ let bestOf = 0
 let banCount = 2
 const roundNameEl = document.getElementById("round-name")
 let allBeatmaps = []
+let allTeams = []
 
-Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams, matches]) => {
+// Pick array
+let currentPickArray, previousPickArray
+let currentWinnerArray, previousWinnerArray
+
+Promise.all([loadBeatmaps(), loadTeams(), loadMatches(), initialiseLogsApi()]).then(([beatmaps, teams, matches]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = `// ${beatmaps.roundName} mappool`
@@ -41,6 +47,8 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
             bestOf = 13
             break
     }
+    currentPickArray = new Array(bestOf)
+    currentWinnerArray = new Array(bestOf)
 
     // Create ban images
     for (let i = 0; i < banCount; i++) {
@@ -99,6 +107,8 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
         option.textContent = `${shortenString(matches[i].team_a)} vs ${shortenString(matches[i].team_b)}`
         matchSelectEl.append(option)
     }
+
+    allTeams = teams
 })
 
 // Create Ban Image
@@ -292,20 +302,28 @@ socket.onmessage = event => {
             }
             checkedWinner = false
             currentState = 3
+
+            console.log(currentRedScore, currentBlueScore)
         } else {
             // Results
+            console.log(checkedWinner, currentState, currentPickTile)
             if (!checkedWinner && currentPickTile && isStarOn()) {
+                
                 checkedWinner = true
 
                 const winner = currentRedScore > currentBlueScore ? "red" : currentBlueScore > currentRedScore ? "blue" : undefined
+                console.log(currentRedScore, currentBlueScore, winner)
                 if (winner) {
+                    // Set pick
                     currentPickTile.children[2].setAttribute("src", `../_shared/assets/winner-crowns/winner-${winner}-map.png`)
                     currentPickTile.children[2].style.display = "block"
+                    // Add stars
+                    updateStarCount(winner, "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName)
                 }
 
                 notYetPicked = false
             }
-            currentState = 4
+            currentState = 4 
         }
     } else {
         // If in main lobby scene
@@ -345,6 +363,31 @@ socket.onmessage = event => {
     // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
     if (chatLen !== data.tourney.chat.length) {
         chatLen = updateChat(data.tourney, chatLen, chatDisplayWrapperEl, true, getLogsApi(), currentTeamRed, currentTeamBlue, currentTeamRedName, currentTeamBlueName)
+    }
+
+    // Save pick string
+    currentPickArray = new Array(bestOf)
+    for (let i = 0; i < pickContainerEl.childElementCount; i++) {
+        if (pickContainerEl.children[i].hasAttribute("data-id")) currentPickArray[i] = pickContainerEl.children[i].dataset.id
+    }
+    if (currentPickArray !== previousPickArray) {
+        previousPickArray = currentPickArray
+        localStorage.setItem("currentPickString", currentPickArray.join("|"))
+    }
+
+    // Save winner string
+    currentWinnerArray = new Array(bestOf)
+    for (let i = 0; i < pickContainerEl.childElementCount; i++) {
+        if (pickContainerEl.children[i].hasAttribute("data-id") &&
+            pickContainerEl.children[i].children[2].hasAttribute("src")
+        ) {
+            if (pickContainerEl.children[i].children[2].getAttribute("src").includes("red")) currentWinnerArray[i] = "red"
+            else if (pickContainerEl.children[i].children[2].getAttribute("src").includes("blue")) currentWinnerArray[i] = "blue"
+        }
+    }
+    if (currentWinnerArray !== previousWinnerArray) {
+        previousWinnerArray = currentWinnerArray
+        localStorage.setItem("currentWinnerString", currentWinnerArray.join("|"))
     }
 
     // Log Data
@@ -474,12 +517,12 @@ async function applyMatch() {
 
     // Team A
     currentTeamRedName = match.team_a
-    currentTeamRed = findTeam(currentTeamRedName)
+    currentTeamRed = await findTeam(currentTeamRedName)
     teamRedNameEl.textContent = currentTeamRedName
 
     // Team B
     currentTeamBlueName = match.team_b
-    currentTeamBlue = findTeam(currentTeamBlueName)
+    currentTeamBlue = await findTeam(currentTeamBlueName)
     teamBlueNameEl.textContent = currentTeamBlueName
 
     document.cookie = `currentTeamRedName=${currentTeamRedName}; path=/`

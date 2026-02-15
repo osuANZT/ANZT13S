@@ -12,31 +12,34 @@
 
     <link rel="stylesheet" href="../_shared/css/common.css">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="page-size main">
         <img class="logo absolute-center-x" src="static/logo.png">
-        <div class="round-name absolute-center-x">// RO24 Results</div>
+        <div class="round-name absolute-center-x" id="round-name">// RO24 Results</div>
 
         <!-- Left Results -->
-        <img class="result-text result-text-left" src="static/result-text/winner.png">
+        <img class="result-text result-text-left" id="result-text-left" src="static/result-text/winner.png">
         <div class="team-background team-red-background"></div>
         <div class="team-name team-red-name" id="team-red-name">team RRRRRRRRRRRR</div>
         <div class="team-players team-players-left">
-            <span class="player-name" id="player1-name">mrekk</span> 
-            <span class="player-rank" id="player1-rank">#1</span> / 
-            <span class="player-name" id="player2-name">TheBronzeBoxBox</span> 
+            <span class="player-name" id="player1-name">mrekk</span>
+            <span class="player-rank" id="player1-rank">#1</span> /
+            <span class="player-name" id="player2-name">TheBronzeBoxBox</span>
             <span class="player-rank" id="player2-rank">#126</span>
         </div>
 
         <!-- Right Results -->
-        <img class="result-text result-text-right" src="static/result-text/loser.png">
+        <img class="result-text result-text-right" id="result-text-right" src="static/result-text/loser.png">
         <div class="team-background team-blue-background"></div>
         <div class="team-name team-blue-name" id="team-blue-name">team B</div>
         <div class="team-players team-players-right">
-            <span class="player-name" id="player3-name">mrekk</span> 
-            <span class="player-rank" id="player3-rank">#1</span> / 
-            <span class="player-name" id="player4-name">TheBronzeBoxBox</span> 
+            <span class="player-name" id="player3-name">mrekk</span>
+            <span class="player-rank" id="player3-rank">#1</span> /
+            <span class="player-name" id="player4-name">TheBronzeBoxBox</span>
             <span class="player-rank" id="player4-rank">#126</span>
         </div>
 
@@ -51,5 +54,7 @@
             </div>
         </div>
     </div>
+
+    <script src="index.js" type="module"></script>
 </body>
 </html>
